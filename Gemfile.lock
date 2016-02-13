@@ -39,6 +39,3 @@ DEPENDENCIES
   jekyll (= 3.0.1)
   jekyll-last-modified-at
   stringex
-
-BUNDLED WITH
-   1.11.2

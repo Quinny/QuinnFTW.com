@@ -7,10 +7,9 @@
 # {{ author.web }}: used in atom feed
 # {{ author.twitter }}: used by Twitter Cards
 default:
-  name:         Tunghsiao Liu
-  email:        t@sparanoid.com
-  web:          http://sparanoid.com/
-  twitter:      tunghsiao
+  name:         Quinn Perfetto
+  email:        thequinnftw@gmail.com
+  web:          http://quinnftw.com
 
 tester:
   name:         Tester

@@ -11,10 +11,6 @@
 <!-- Post specified styles -->
 <style data-assets-inline>
   body {
-    {% if page.scheme-text %}
-    color: {{ page.scheme-text }};
-    {% endif %}
-
     {% if page.scheme-bg %}
     background-color: {{ page.scheme-bg }};
     {% endif %}
@@ -35,24 +31,12 @@
     {% endif %}
   }
 
-  {% if page.scheme-text %}
-  a,
-  button {
-    color: {{ page.scheme-text }};
-  }
-  {% endif %}
-
   {% if page.scheme-link %}
   ::selection {
     color: {{ page.scheme-link }};
   }
   {% endif %}
 
-  {% if page.scheme-text %}
-  body:before, .logo {
-    background: {{ page.scheme-text }};
-  }
-  {% endif %}
     {% if page.scheme-link %}
     .logo:hover {
       background: {{ page.scheme-link }};
