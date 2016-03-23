@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>QuinnFTW.com</title><subtitle>QuinnFTW.com - Quinn Perfetto</subtitle><updated>2016-03-23T09:31:22-04:00</updated><id>http://quinnftw.com/</id><rights>Copyright © 2016, Quinn Perfetto</rights><link rel="alternate" type="text/html" hreflang="en" href="http://quinnftw.com/" /><link rel="self" type="application/atom+xml" href="http://quinnftw.com/feed.xml" /><author><name>Quinn Perfetto</name><uri>http://quinnftw.com/</uri><email>thequinnftw@gmail.com</email></author><entry><title>IPD Research Paper</title><id>http://quinnftw.com/ipd-research-paper/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/ipd-research-paper/" /><published>2016-03-23T00:00:00-04:00</published><updated>2016-03-23T09:31:03-04:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            
+
+          
+          
+        
+          &lt;p&gt;&lt;a href=&quot;/ipd.pdf&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
+        
+      
+        </content><summary></summary></entry><entry><title>Problem of the week</title><id>http://quinnftw.com/problem-of-the-week/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/problem-of-the-week/" /><published>2016-02-12T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            
+
+          
+          
+        
+          &lt;p&gt;&lt;a href=&quot;http://potw.quinnftw.com&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
+        
+      
+        </content><summary></summary></entry><entry><title>A non-scary C++ trie implementation</title><id>http://quinnftw.com/c++-trie/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/c++-trie/" /><published>2015-10-30T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)
+is an ordered tree data structure, such that each descendant of a given node in a trie share
+a common prefix.  This property makes for fast prefix based queries (used in auto complete, spell check, etc.).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/trie.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A trie with words a, at, ate, on, one, out, my, me, and mud.
+Filled in nodes denote the end of a word.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Implementing a trie is similar to implementing any other n-ary tree, with a few key differences.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-node&quot;&gt;The Node&lt;/h2&gt;
+
+&lt;p&gt;Each node in a trie has a set of outgoing edges labeled by a character.  Each
+node must also contain a flag indicating whether it is a valid word end.&lt;/p&gt;
+
+&lt;p&gt;Outgoing edges can be represented by a map of &lt;code class=&quot;highlighter-rouge&quot;&gt;char =&amp;gt; node*&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;n[c] =&amp;gt; m&lt;/code&gt; denotes that n has an outgoing edge labeled c, incident on m.&lt;/p&gt;
+
+&lt;p&gt;The end of word marker can be represented trivially by a boolean field.&lt;/p&gt;
+
+&lt;p&gt;Our node ends up looking like this:
+&lt;script src=&quot;https://gist.github.com/Quinny/960f872f88ca86b741cc.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-trie&quot;&gt;The Trie&lt;/h2&gt;
+
+&lt;p&gt;As with most tree-like structures, the only data member required for a trie
+is a node which points to the root.&lt;/p&gt;
+
+&lt;p&gt;To insert into a trie, you simply iterate through the input string and walk the corresponding edge labels.
+If a given edge does not exist, create it.  Once you have exhausted the input string, mark the node
+you ended on as a valid end of word.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/b2e09745aee0e60e5414.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;Since trie_nodes are being dynamically allocated on the heap, they must be deleted.
+The destructor for a trie needs to walk the tree and de-allocate all nodes.
+This can be implemented using either a DFS or BFS traversal (I tend to prefer BFS)&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/6a3079fc7d552eee76ee.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;With these functions, you have a working trie.  You can now begin to add functions
+which perform the prefix queries.  I have shown an example below.&lt;/p&gt;
+
+&lt;h2 id=&quot;auto-complete&quot;&gt;Auto complete&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/a837587eb986434bf03a.js&quot;&gt;&lt;/script&gt;
+
+
+          
+          
+        
+      
+        </content><summary>Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)is an ordered tree data structure, such that each descendant of a given node in a trie sharea common prefix.  This property makes for fast prefix based queries (used in auto complete, spell check, etc.).</summary></entry><entry><title>Event Planning</title><id>http://quinnftw.com/margare_t/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/margare_t/" /><published>2015-10-21T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/6/&quot;&gt;View Problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;Given a set of events, each of which having 0 or more prerequisite events,
+output a suggested ordering such that all of a given events pre-requisites appear before it.&lt;/p&gt;
+
+&lt;h2 id=&quot;data-representation&quot;&gt;Data Representation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Not super intuitive, but a directed graph works very well for this problem
+    &lt;ul&gt;
+      &lt;li&gt;Directed meaning that edges are &lt;em&gt;not&lt;/em&gt; bidirectional&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Each event represents a node in the graph&lt;/li&gt;
+  &lt;li&gt;An edge going from event A to event B denotes that A is a pre-requisite of B&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;assetsimagespotwtopoclassespng&quot;&gt;&lt;img src=&quot;/assets/images/potw/topoclasses.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;building-the-graph&quot;&gt;Building the graph&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We can use a graph structure similar to that in week 2, with a few minor modifications (seen later)&lt;/li&gt;
+  &lt;li&gt;A full description of this structure can be found &lt;a href=&quot;http://quinnftw.com/c++-graph-implementation/&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Simply read in the end points and connect them on the graph&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;base-graph-without-modifications&quot;&gt;Base Graph (without modifications)&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/a92c42c628983ef3142c.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;algorithm-for-generating-sequence&quot;&gt;Algorithm for generating sequence&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;There is a well known algorithm for sorting graph nodes based on pre-requisites&lt;/li&gt;
+  &lt;li&gt;Known as &lt;em&gt;topological sort&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Produces a linear ordering of vertices such that for every directed edge uv from vertex u to vertex v, u comes before v in the ordering&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Note that this is only possible if the given graph is a DAG (directed acyclic graph)&lt;/li&gt;
+  &lt;li&gt;Also note that more than 1 valid topological sort may exist for a given DAG&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-algorithm&quot;&gt;The Algorithm&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The first step is to find all events with no pre-requisites, these will always come first in the ordering&lt;/li&gt;
+  &lt;li&gt;&lt;img src=&quot;/assets/images/potw/topoclasses1.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-algorithm-1&quot;&gt;The Algorithm&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We add these events to a queue to be processed, and begin a loop while the queue is not empty&lt;/li&gt;
+  &lt;li&gt;For each iteration, we pop an element off the queue, and disconnect it from its children
+    &lt;ul&gt;
+      &lt;li&gt;The reason for this is because it has already been processed, so we are “fulfilling” the pre-requisite&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-algorithm-2&quot;&gt;The Algorithm&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/potw/topoclasses2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-algorithm-3&quot;&gt;The Algorithm&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We then check if this disconnecting has caused any nodes to have fulfilled pre-requisites&lt;/li&gt;
+  &lt;li&gt;&lt;img src=&quot;/assets/images/potw/topoclasses3.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-algorithm-4&quot;&gt;The Algorithm&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Continue this way until we have processed every node in the graph&lt;/li&gt;
+  &lt;li&gt;At this point we have our ordering&lt;/li&gt;
+  &lt;li&gt;Our base graph class just needs a way of checking how many incoming edges each 
+node has and we can implement this algorithm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;modifications&quot;&gt;Modifications&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/d0f0373480edfec058c5.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;the-solution&quot;&gt;The Solution&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://gist.github.com/Quinny/4eb1591cb2c355e8cd17&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+          
+          
+        
+      
+        </content><summary>View Problem</summary></entry><entry><title>POTW API</title><id>http://quinnftw.com/potw-api/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/potw-api/" /><published>2015-10-15T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/5/&quot;&gt;View problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;Given an endpoint for a JSON API, pull the data from it and translate it into 
+a graph.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-an-api&quot;&gt;What is an API?&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;API stands for &lt;em&gt;Application programming interface&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;Basically an API is an interface that a system can expose that allows 
+others to access some chosen internal data/functions&lt;/li&gt;
+  &lt;li&gt;For example, you may create a stack class and expose an API for pushing and 
+popping, but still hide away your internal node structure&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://potw.quinnftw.com/api/solvers&quot;&gt;potw.quinnftw.com/api/solvers&lt;/a&gt; exposes 
+a view of the websites internal scoring system&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;how-do-we-use-it&quot;&gt;How do we use it?&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We can get the data from the API using an HTTP GET request
+    &lt;ul&gt;
+      &lt;li&gt;Called a GET request because it is used to retrieve data&lt;/li&gt;
+      &lt;li&gt;POST, PATCH, and DELETE are also types of requests (self explanitory)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Almost every language has a library for making GET requests&lt;/li&gt;
+  &lt;li&gt;Simply make a request to the URL and you will recieve the data displayed on the page&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;parsing-the-data&quot;&gt;Parsing the data&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The data is displayed in JSON format
+    &lt;ul&gt;
+      &lt;li&gt;JSON stands for &lt;em&gt;Javascript Object Notation&lt;/em&gt;&lt;/li&gt;
+      &lt;li&gt;The format in which javascript serializes its objects&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Again, most languages have a JSON parser in the standard library&lt;/li&gt;
+  &lt;li&gt;I choose to use Javascript so that there would be a direct native translation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;making-a-request-in-javascript&quot;&gt;Making a request in Javascript&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Making GET requests in node.js is very simple&lt;/li&gt;
+  &lt;li&gt;Key concept to remember is that &lt;em&gt;all&lt;/em&gt; I/O (file, keyboard, network, etc.) in node.js
+is asynchronous
+    &lt;ul&gt;
+      &lt;li&gt;This means that it is non-blocking&lt;/li&gt;
+      &lt;li&gt;i.e. program continues execution normally after function is called&lt;/li&gt;
+      &lt;li&gt;I/O is performed concurrently&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;dealing-with-asynchronous-io&quot;&gt;Dealing with asynchronous I/O&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I/O in node.js uses &lt;em&gt;callbacks&lt;/em&gt; to communicate data between concurrent functions&lt;/li&gt;
+  &lt;li&gt;A callback is a function which is defined in the main execution space, and 
+is passed to an asynchronous call as a means of returning the data&lt;/li&gt;
+  &lt;li&gt;Simple return statements are useless since execution is asynchronous
+    &lt;ul&gt;
+      &lt;li&gt;We can’t “wait” for a return value because functions do not block&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;assetsimagespotwasynciopng&quot;&gt;&lt;img src=&quot;/assets/images/potw/asyncio.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;the-code&quot;&gt;The code&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/75f1fe5551e31221fc44.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;explained&quot;&gt;Explained&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;This code allows us to make our request to the server asynchronously&lt;/li&gt;
+  &lt;li&gt;We provide a callback function &lt;code class=&quot;highlighter-rouge&quot;&gt;drawGraph&lt;/code&gt; so that we can use the data received
+in the I/O call&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;using-the-data-to-draw-a-graph&quot;&gt;Using the data to draw a graph&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://gist.github.com/Quinny/0b4dbc67c4b71545d826&quot;&gt;Solution here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+          
+          
+        
+      
+        </content><summary>View problem</summary></entry><entry><title>A non-scary C++ graph implementation</title><id>http://quinnftw.com/c++-graph-implementation/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/c++-graph-implementation/" /><published>2015-10-04T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;If you have ever tried to google for a C++ graph implementation you mostly likely 
+came across a big heaping (&lt;a href=&quot;http://gribblelab.org/CBootcamp/7_Memory_Stack_vs_Heap.html&quot;&gt;pun intended&lt;/a&gt;) mess of pointers.  While this approach 
+works fine, the code is very clunky and the interface tends to become awkward 
+to use.&lt;/p&gt;
+
+&lt;p&gt;The problem with these implementations is that they do not make use of the excellent 
+data structures that the C++ STL provides.  Why define everything in a low level 
+manner when we can abstract all of it away with permformant higher level data structures?&lt;/p&gt;
+
+&lt;p&gt;At the highest level, a graph is a set of nodes connected by a set of edges.  The most 
+common way to represent this relation is by using an &lt;em&gt;adjacency matrix&lt;/em&gt; like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://www.bytehood.com/wp-content/uploads/2012/01/adjacency_matrix.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Each node in the graph has its own row and column in the matrix.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;m[i][j] = 1 =&amp;gt; i is connected to j&lt;/li&gt;
+  &lt;li&gt;m[i][j] = 0 =&amp;gt; i is not connected to j&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This idea can be simplified further by saying that each node has a set of adjacent 
+nodes that it is connected to, i.e.&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;i \in m[j] \implies&lt;/script&gt; i is adjacent to j&lt;/p&gt;
+
+&lt;p&gt;So the adjaceny matrix above could be reduced to the following:&lt;/p&gt;
+
+&lt;pre&gt;
+{
+    A : {B, C, D, E},
+    B : {A, D, E},
+    C : {A, F},
+    D : {A, B, F},
+    E : {A, B, F},
+    F : {C, D, E}
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Essentially we have created a map, where the key is a node and the value is a set of nodes.&lt;br /&gt;
+The relationship that the map represents is adjacency.  C++ provides both a set and a map 
+data structure, so this could be represented as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+std::map&amp;lt;T, std::set&amp;lt;T&amp;gt;&amp;gt; g;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Where T is the node payload type.  In order to connect node i to node j, 
+we simply add j to i’s set (and vice versa if the graph is bidirectional).&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+g[i].insert(j);
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;To disconnect nodes i and j, simply remove j from i’s set&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+g[i].erase(j);
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The full code for this representation is about 16 lines, and is enough to implement 
+almost any graph algorithm (small modifications/additions must be made for some 
+of the more complicated algorithms).&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/a92c42c628983ef3142c.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;usage-example&quot;&gt;Usage Example&lt;/h2&gt;
+
+&lt;h1 id=&quot;breadth-first-search&quot;&gt;Breadth First Search&lt;/h1&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/0d5351607f3cefd1aa13.js&quot;&gt;&lt;/script&gt;
+
+
+          
+          
+        
+      
+        </content><summary>If you have ever tried to google for a C++ graph implementation you mostly likely came across a big heaping (pun intended) mess of pointers.  While this approach works fine, the code is very clunky and the interface tends to become awkward to use.</summary></entry><entry><title>Farmer Kelly</title><id>http://quinnftw.com/farmer-kelly/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/farmer-kelly/" /><published>2015-10-02T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/4/&quot;&gt;View problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;Given an m x n matrix of integers, find the sub rectangle such that the sum is maximized.&lt;/p&gt;
+
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
+&lt;p class=&quot;h&quot;&gt;&lt;img src=&quot;/assets/images/potw/matrix.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;things-to-consider&quot;&gt;Things to consider&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Negative values may appear in the matrix
+    &lt;ul&gt;
+      &lt;li&gt;If all values were positive the maximum sum sub rectangle would be the entire matrix&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;There is a better solution than checking every sub rectangle&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;data-representation&quot;&gt;Data representation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Nothing overly complicated needed&lt;/li&gt;
+  &lt;li&gt;A 2D array will represent the data exactly as needed&lt;/li&gt;
+  &lt;li&gt;Usually easier to use a vector&amp;lt;vector&amp;lt;T&amp;gt;&amp;gt; in C++ v.s. T[][] as passing 2D arrays with run 
+time sizes into functions is a little awkward&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-idea&quot;&gt;The Idea&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We can solve the one dimensional version of this problem in linear time using kadanes algorithm&lt;/li&gt;
+  &lt;li&gt;The rows of the 2D array can be flattened into a 1D array by summing them together&lt;/li&gt;
+  &lt;li&gt;We can then perform kadanes algorithm on the flattened rows and find the rows bounding the 
+maximum sub sequence&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;in-action&quot;&gt;In Action&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/potw/matrix-step-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;in-action-1&quot;&gt;In Action&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/potw/matrix-step-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;in-action-2&quot;&gt;In Action&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/potw/matrix-step-3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;in-action-3&quot;&gt;In Action&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/potw/matrix-step-final.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;one-dimensional-algorithm&quot;&gt;One Dimensional Algorithm&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In order to find the row bounds we need to implement the one dimensional maximum sub sequence algorithm&lt;/li&gt;
+  &lt;li&gt;Known as Kadane’s algorithm, it goes as follows:
+    &lt;ul&gt;
+      &lt;li&gt;Keep track of the sum of the current prefix that we scanned&lt;/li&gt;
+      &lt;li&gt;If that prefix ever becomes negative, give up on it and start over&lt;/li&gt;
+      &lt;li&gt;After each iteration, compare our current prefix sum with the max seen so far
+  and update accordingly&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/bcd3363ec4732209b126.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;using-this-algorithm&quot;&gt;Using this algorithm&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;To use this algorithm, we simply need to iterate through the matrix fixing the columns&lt;/li&gt;
+  &lt;li&gt;We can then flatten the elements in between our fixed left and right columns into a one dimensional array&lt;/li&gt;
+  &lt;li&gt;Once we have our flattened columns, we run the result through kadanes algorithm and recieve the maximum sum 
+as well as the bounding rows&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;combining-the-two&quot;&gt;Combining the two&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/878e123bd7e5f341b7f5.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;the-solution&quot;&gt;The solution&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://gist.github.com/Quinny/62a5561542db7e089e55&quot;&gt;found here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+          
+          
+        
+      
+        </content><summary>View problem</summary></entry><entry><title>Lets Eat Grandpa</title><id>http://quinnftw.com/lets-eat-grandpa/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/lets-eat-grandpa/" /><published>2015-09-25T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/3/&quot;&gt;View Problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;You are given a dictionary of words, followed by a list of sentences which have been 
+stripped of all punctuation.  You are to determine if spaces can be re-inserted into 
+the sentences such that each word created appears in the given dictionary.&lt;/p&gt;
+
+&lt;h2 id=&quot;things-to-consider&quot;&gt;Things to consider&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Words may overlap
+    &lt;ul&gt;
+      &lt;li&gt;i.e. “cat” and “catch”&lt;/li&gt;
+      &lt;li&gt;Where you choose to insert the space is important in this case&lt;/li&gt;
+      &lt;li&gt;This prevents heuristic greedy algorithms&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;A word may appear more than once in any sentence&lt;/li&gt;
+  &lt;li&gt;Test cases are large enough that computing all possible dictionary 
+combinations will eat my CPU&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;things-to-consider-1&quot;&gt;Things to consider&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The key to this problem is finding all valid word prefixes for a given sentence&lt;/li&gt;
+  &lt;li&gt;Since words may overlap, we must explore each one&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Dictionary:
+    &lt;ul&gt;
+      &lt;li&gt;cat&lt;/li&gt;
+      &lt;li&gt;catch&lt;/li&gt;
+      &lt;li&gt;cha&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Sentence:
+    &lt;ul&gt;
+      &lt;li&gt;catcha&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;You must consider the case of [catch][a] and [cat][cha]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;data-representation&quot;&gt;Data Representation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Since we will be looking for valid word prefixes, this problem lends itself 
+well to the &lt;em&gt;Trie&lt;/em&gt; data structure (also known as a &lt;em&gt;prefix tree&lt;/em&gt;)&lt;/li&gt;
+  &lt;li&gt;Trie’s are ordered tree data structures which have the property that all 
+descendants of a given node share a common prefix&lt;/li&gt;
+  &lt;li&gt;Used commonly for auto-complete and text prediction&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 class=&quot;h&quot; id=&quot;assetsimagestriejpg&quot;&gt;&lt;img src=&quot;/assets/images/trie.jpg&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Like graphs, most languages do not include a trie structure in the 
+standard library&lt;/li&gt;
+  &lt;li&gt;Again though, they are easily created using existing data structures&lt;/li&gt;
+  &lt;li&gt;Each node in the trie contains a map of a Character =&amp;gt; TrieNode denoting an out 
+going edge labeled with the character incident on the given TrieNode&lt;/li&gt;
+  &lt;li&gt;For the purpose of this problem we only need a minimal trie implementation&lt;/li&gt;
+  &lt;li&gt;insert, and prefixMatches are all that are necessary&lt;/li&gt;
+  &lt;li&gt;Note that tries can also be used to implement pattern matching i.e.
+    &lt;ul&gt;
+      &lt;li&gt;find all strings that start with a, followed by any 3 characters, and 
+  end with b&lt;/li&gt;
+      &lt;li&gt;These features are used for things like text prediction and auto complete&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;trie-node-implementation&quot;&gt;Trie Node Implementation&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/c02aaa6b8aba622dfe77.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;insert-function&quot;&gt;Insert Function&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/bc76ce614bff44e55ead.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;finding-matching-prefixes&quot;&gt;Finding matching prefixes&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/d641a614273e838502c4.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;putting-it-all-together&quot;&gt;Putting it all together&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Now that we have a way of finding all valid prefixes, we just have to design 
+an algorithm to solve the problem&lt;/li&gt;
+  &lt;li&gt;Basically, for each valid prefix we find, we want to remove it from the sentence 
+and then repeat the process with the remaining string&lt;/li&gt;
+  &lt;li&gt;Once we have exhausted the entire input string, we know that it was a valid sentence&lt;/li&gt;
+  &lt;li&gt;Seems like a recursive problem&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-algorithm&quot;&gt;The algorithm&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/420be33cfc7658306899.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;full-solution&quot;&gt;Full solution&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://gist.github.com/Quinny/34c4032f8c81c4c008fc&quot;&gt;Found Here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+
+          
+          
+        
+      
+        </content><summary>View Problem</summary></entry><entry><title>Calculating Coolness</title><id>http://quinnftw.com/calculating-coolness/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/calculating-coolness/" /><published>2015-09-20T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/2/&quot;&gt;View Problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;Given a list of friendships, calculate the degrees of separation between each person listed and
+the coolest guy around Quinn&lt;/p&gt;
+
+&lt;h2 id=&quot;step-1-data-representation&quot;&gt;Step 1: Data Representation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Often the hardest part of solving any problem&lt;/li&gt;
+  &lt;li&gt;Very cruicial to the rest of your approach&lt;/li&gt;
+  &lt;li&gt;Should be well thought out&lt;/li&gt;
+  &lt;li&gt;The more problems you do, the easier this becomes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;undirected-graphs&quot;&gt;Undirected Graphs&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We will represent the data given to us as an undirected graph&lt;/li&gt;
+  &lt;li&gt;What is a graph?
+    &lt;ul&gt;
+      &lt;li&gt;Not your typical line or bar graph&lt;/li&gt;
+      &lt;li&gt;Graphs in math are defined as a 2-tuple (V, E)&lt;/li&gt;
+      &lt;li&gt;A set of vertices connected by a set of edges&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Each person will be a vertex in our graph and each friendship will be an edge&lt;/li&gt;
+  &lt;li&gt;Undirected just means that each edge is bidirectional (just like the friendship relation)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 class=&quot;cover h&quot; id=&quot;assetsimagespotwgraphpng&quot;&gt;&lt;img src=&quot;/assets/images/potw/graph.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;step-2-choosing-an-algorithm&quot;&gt;Step 2: Choosing an Algorithm&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Now that we have decided on a way to represent our data, we must choose an algorithm to process it&lt;/li&gt;
+  &lt;li&gt;Since we have decided to use a graph, it would only make sense to consider graph algorithms&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;breadth-first-search&quot;&gt;Breadth First Search&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Breadth first search&lt;/em&gt; is a commonly used algorithm for traversing graphs&lt;/li&gt;
+  &lt;li&gt;Useful for this problem because it traverses the graph in a &lt;em&gt;level order manner&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;It first handles the root (Quinn)&lt;/li&gt;
+      &lt;li&gt;Then moves to Quinn’s direct neighbours (QDist level 1)&lt;/li&gt;
+      &lt;li&gt;Continuing down until each level has been processed&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;step-3-implementation&quot;&gt;Step 3: Implementation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Now that we have our data structure and algorithm mapped out, we can begin implementing them&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;graph-implementation&quot;&gt;Graph Implementation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Most languages &lt;em&gt;do not&lt;/em&gt; include a graph data structure in the standard library&lt;/li&gt;
+  &lt;li&gt;Thankfully they are relatively simple, and most languages &lt;em&gt;do&lt;/em&gt; provide the tools nessesary to do so&lt;/li&gt;
+  &lt;li&gt;Generally implemented using a map&lt;/li&gt;
+  &lt;li&gt;We map verticies to a list of their corresponding adjacent verticies&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;how-i-did-it&quot;&gt;How I Did it&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/cdddd4005f27e27dd298.js&quot;&gt;&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Not the only way&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;breadth-first-search-and-cycle-detection&quot;&gt;Breadth First Search and Cycle Detection&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Breadth first search is also relatively easy to implement&lt;/li&gt;
+  &lt;li&gt;One thing to keep in mind is that cycles may appear in the graph&lt;/li&gt;
+  &lt;li&gt;For instance:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;img src=&quot;/assets/images/potw/cycle.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;breadth-first-search-and-cycle-detection-1&quot;&gt;Breadth First Search and Cycle Detection&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;To handle this we simply need to make sure we do not visit any vertex more than once&lt;/li&gt;
+  &lt;li&gt;Each time a node is visited add it to a set of visited nodes&lt;/li&gt;
+  &lt;li&gt;Do not process any node that has already been visited&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;how-i-did-it-1&quot;&gt;How I Did It&lt;/h2&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/0b7b32b7ad7d4eee14fb.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;putting-it-all-together&quot;&gt;Putting it all together&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We now have a map that maps each person to their QDist value&lt;/li&gt;
+  &lt;li&gt;Basically done at this point, we just need to handle the uncool people&lt;/li&gt;
+  &lt;li&gt;Since there does not exist a path in the graph from them to Quinn, they will not appear in the visited map&lt;/li&gt;
+  &lt;li&gt;This can be solved many different ways&lt;/li&gt;
+  &lt;li&gt;You could store all the names at the very beginning and then check which do not appear in the visited map&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;my-solution&quot;&gt;My solution&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://gist.github.com/Quinny/7b37029cdb330a9a2102&quot;&gt;Found Here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It’s not too late to try solving this problem&lt;/li&gt;
+  &lt;li&gt;Good luck on week 3!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+          
+          
+        
+      
+        </content><summary>View Problem</summary></entry><entry><title>Personal API</title><id>http://quinnftw.com/creating-my-personal-api.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/creating-my-personal-api.html" /><published>2015-08-18T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;&lt;a href=&quot;http://api.quinnftw.com&quot;&gt;Final Product&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I’ve had the idea of creating a personal API rolling around in my head for a
+while.  Its a pretty cool concept, and there are a lot of interesting implementation
+and design decisions to be made.  My two main goals for the end product were:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;The data should be easily accessible and clean&lt;/p&gt;
+
+&lt;p&gt;This was a big one.   I’ve used a lot of poorly designed API’s with nonsensical
+end point names and the need for 18 different check sums to get a single piece of data.
+Data cleanliness was also very important, there is no need to have to go through
+an arbitrary number of outer level JSON fields before getting to the actual&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;It should be very easy to add/modify end points&lt;/p&gt;
+
+&lt;p&gt;I wanted to design the API as an almost a plugin like system, where adding new modules
+(end points) was very simple and the main driver really doesn’t have to worry about
+individual implementations.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Before starting to write code or making any design decisions, I poked around
+a few github repo’s to see how other people were doing things.  One that I
+really liked and pulled a lot of inspiration from was
+&lt;a href=&quot;http://mbmccormick.com/2015/07/personal-api/&quot;&gt;mbmccormick’s personal api&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I decided to go with a Node.js backend because I have recently been fooling around
+with node and wanted to expand my knowledge a bit.  I had also created an HTTP server in
+node before and I knew it would be super easy to get up and running.  Since
+I would be using javascript as the server language, it only made sense to serve
+the data in JSON format.&lt;/p&gt;
+
+&lt;p&gt;Making the API easily extensible was actually not as difficult as I thought it would
+be.  I made each API module expose a &lt;code class=&quot;highlighter-rouge&quot;&gt;registerRoutes&lt;/code&gt; function which defined
+loop through each of the end points and register it with the main server.  I
+implemented some pretty simple cache logic and a few helper functions for
+setting the HTTP headers and response content and the API was up and running
+in no time.&lt;/p&gt;
+
+&lt;p&gt;I also wrote a janky little python script which parses each module for comments
+and generates an html file with documentation.  This made it
+so that the homepage literally updated it self with each new addition and I
+didn’t have to worry about forgetting to add to it.&lt;/p&gt;
+
+&lt;p&gt;I am very proud of the final product, the code is super clean and very easily testable.  The &lt;a href=&quot;https://github.com/quinny/api&quot;&gt;source code&lt;/a&gt; is available on
+github, and the api is live at &lt;a href=&quot;https://api.quinnftw.com&quot;&gt;api.quinnftw.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have any questions about anything that I did or think you can improve
+my code, &lt;a href=&quot;/contact/&quot;&gt;let me know!&lt;/a&gt;.&lt;/p&gt;
+
+          
+          
+        
+      
+        </content><summary>Final Product</summary></entry><entry><title>Using Angular with Jekyll</title><id>http://quinnftw.com/using-angular-with-jekyll/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/using-angular-with-jekyll/" /><published>2015-07-26T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;Earlier today I decided to try and clean up some of the jquery soup on my 
+website by bringing some nice and orgainized angular into the mix. 
+For about 30 minutes I was pulling my 
+hair out trying to figure out why my angular expressions weren’t working, until 
+I finally realized that angular and liquid markdown share the exact same expression 
+delimiters: &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;}}&lt;/code&gt; (just getting those to show 
+in this post took some leg work).  So the liquid markdown parser scans through and 
+consumes all the angular expressions and then when the html is rendered, there is 
+nothing for angular to evaluate.&lt;/p&gt;
+
+&lt;p&gt;Thankfully angular exposes its interpolate provider, so you can easily change 
+the characters to something else which won’t conflict with jekyll, 
+like &lt;code class=&quot;highlighter-rouge&quot;&gt;[[&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;]]&lt;/code&gt; for example.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/a250d1dabbc75eb8ea16.js&quot;&gt;
+&lt;/script&gt;
+
+
+          
+          
+        
+      
+        </content><summary>Earlier today I decided to try and clean up some of the jquery soup on my website by bringing some nice and orgainized angular into the mix. For about 30 minutes I was pulling my hair out trying to figure out why my angular expressions weren’t working, until I finally realized that angular and liquid markdown share the exact same expression delimiters: {{ and }} (just getting those to show in this post took some leg work).  So the liquid markdown parser scans through and consumes all the angular expressions and then when the html is rendered, there is nothing for angular to evaluate.</summary></entry><entry><title>Generic Container Benchmarking</title><id>http://quinnftw.com/generic-container-benchmarking/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/generic-container-benchmarking/" /><published>2015-04-08T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;&lt;a href=&quot;https://github.com/Quinny/Container-Benchmark&quot;&gt;Final Product&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;One of the things that I have been really into lately is writing my own
+implementations of the containers provided in the STL.  It helps me better
+understand whats going on under the hood and is great practise for writing
+generic code.&lt;/p&gt;
+
+&lt;p&gt;One of the things I found myself doing was comparing the performance of my custom
+data structures to the equivalent standard implementations and seeing
+how they held up.
+I found myself writing more or less the same code each time I did this, so I
+decided to try my hand at writing a library to make my life easier.&lt;/p&gt;
+
+&lt;h1 id=&quot;goals&quot;&gt;Goals&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Report time to do basic container operations (insert, look up, copy, move, etc.)
+accurately in seconds&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Be able to compare MOST (I don’t want to say all) containers against each other,
+regardless of different API’s&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Allow the user a high level of control on how insertions and lookups are done&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;reporting-time&quot;&gt;Reporting Time&lt;/h1&gt;
+
+&lt;p&gt;Thankfully C++ has an excellent &lt;a href=&quot;http://www.cplusplus.com/reference/chrono/&quot;&gt;time library&lt;/a&gt; which provides a &lt;a href=&quot;http://www.cplusplus.com/reference/chrono/high_resolution_clock/&quot;&gt;high resolution clock&lt;/a&gt;, so this part of the library was much easier than expected.  To record time taken to complete an operation, one simply writes:&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/460823080f07cf142d6c.js&quot;&gt;&lt;/script&gt;
+
+&lt;h1 id=&quot;benchmarking-inserts&quot;&gt;Benchmarking Inserts&lt;/h1&gt;
+
+&lt;p&gt;This is the part where things got interesting.  I started with implementing
+my insertion function.  I wanted to make it so that the same function
+could be used on all the different container types.  I started to analyze the
+standard containers and noticed a few patterns:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Sequence containers generally provide both
+&lt;code class=&quot;highlighter-rouge&quot;&gt;void push_back(T const&amp;amp;)&lt;/code&gt; and
+&lt;code class=&quot;highlighter-rouge&quot;&gt;void insert(std::size_t, T const&amp;amp;)&lt;/code&gt; functions for adding elements&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Associative and ordered containers only use
+&lt;code class=&quot;highlighter-rouge&quot;&gt;iterator insert(std::pair&amp;lt;key_type, value_type&amp;gt; const&amp;amp;)&lt;/code&gt; for inserting, and
+do &lt;b&gt;not&lt;/b&gt; provide a push_back function&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Limited access containers use &lt;code class=&quot;highlighter-rouge&quot;&gt;void push(T const&amp;amp;)&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The problem now was to figure out a way to integrate all 3 of these different
+insertion methods into a single (as far as the user is concerned) function.&lt;/p&gt;
+
+&lt;p&gt;I have recently started to learn about template metaprogramming, so I
+knew that some &lt;a href=&quot;http://en.wikibooks.org/wiki/More_C++_Idioms/Member_Detector&quot;&gt;member detecting&lt;/a&gt; would be useful for figuring this out.&lt;/p&gt;
+
+&lt;p&gt;Based on my observations I came up with 3 different member dectors, one for push_back, one for insert, and one for push.  Now I could use these member dectors 
+along with &lt;a href=&quot;http://en.cppreference.com/w/cpp/types/enable_if&quot;&gt;std::enable_if&lt;/a&gt; to choose the right overload of insert for each container type.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;If the container has a push_back function, then treat it as a seqeunce container&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If the container has a insert function and &lt;b&gt;does not&lt;/b&gt; have a push_back function, treat it as associative.  The check for push_back is nessesary because
+sequence containers also provide an insert function, therefore only checking for 
+the presence of an insert function would lead to an ambiguous call.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If the container has a push function, treat it as limited access&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now, where should the inserted values be coming from?  I decided to allow the 
+user to provide a callable object which takes no arguments that would provide 
+the values to be inserted.  I believe this allows for the highest level of control, as the user could provide a stateless function, or some kind of stateful functor.&lt;/p&gt;
+
+&lt;h1 id=&quot;benchmarking-look-ups&quot;&gt;Benchmarking Look ups&lt;/h1&gt;
+
+&lt;p&gt;Benchmarking lookups turned out to be alot easier than insertions as there 
+was only 2 different possibilites for each container:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;An &lt;code class=&quot;highlighter-rouge&quot;&gt;iterator find(T const&amp;amp;)&lt;/code&gt; function existed&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;No find function existed&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I wrote up another quick member dector for a find function, and defined an 
+error case for containers which did not provide one.   This makes it so that no 
+compile time error will occur, and other benchmarks can continue on as expected.&lt;/p&gt;
+
+&lt;p&gt;I breifly considered using &lt;code class=&quot;highlighter-rouge&quot;&gt;std::find()&lt;/code&gt; in the case where a find 
+member function was not found but iterators for the container existed.  I decided 
+against this because generally these types of contianers are not designed 
+for rapid successive look ups.&lt;/p&gt;
+
+&lt;p&gt;Again, I allowed the user to provide a no argument callable object from which 
+the look up elements would be generated.&lt;/p&gt;
+
+&lt;h1 id=&quot;benchmarking-iteration&quot;&gt;Benchmarking Iteration&lt;/h1&gt;
+
+&lt;p&gt;Iteration proved to be easy as well, as it followed the same pattern as look 
+up functions. either:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;begin()&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;end()&lt;/code&gt; functions exist&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;begin()&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;end()&lt;/code&gt; functions do not exist&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I came up with a few more member dectectors, defined an error case 
+and just recorded to time it took to for-range loop through each element 
+in the container&lt;/p&gt;
+
+&lt;p&gt;Benchmarking copy and move constructors was very trivial and not worth 
+the explanation.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;see&lt;/em&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;auto copy = c&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;auto m = std::move(c)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h1&gt;
+
+&lt;p&gt;I provided a utility function which performs the benchmarks on two different 
+provided containers and outputs the results in a nice colored format.&lt;/p&gt;
+
+&lt;p&gt;If you are interested, the code for this can be found on &lt;a href=&quot;https://github.com/Quinny/Container-Benchmark&quot;&gt;github&lt;/a&gt;, and I welcome criticism with open arms.&lt;/p&gt;
+
+          
+          
+        
+      
+        </content><summary>Final Product</summary></entry><entry><title>Deploying django on a shared host</title><id>http://quinnftw.com/deploying-django-on-a-shared-host/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/deploying-django-on-a-shared-host/" /><published>2015-03-07T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;I finally decided to suck it up and rewrite &lt;a href=&quot;http://linkwallet.ca&quot;&gt;linkwallet&lt;/a&gt; in django.  I got sick of trying to maintain the messy PHP code that I had written and hacked onto over the years.&lt;/p&gt;
+
+&lt;p&gt;It took me about a month of on and off work, but it was finally ready to be pushed to production.  Now I have expirience with pushing rails to production using heroku, but never have I pushed django to production.  On top of that, I wanted to push it to my shared host (bluehost) as I have already paid for 3 years of hosting (I know), and am pretty happy with their speeds and features (ssh access, unlimited emails, etc.).  It wasn’t really as easy as I had hoped it would be so I figured it
+would be helpful for me, and maybe others, if I documented the process and outlined the mistakes I made.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;step-1---install-python&quot;&gt;Step 1 - Install Python&lt;/h1&gt;
+&lt;p&gt;The first thing I had to do was get python installed on my shared host.  Thankfully bluehost offers ssh access, so doing this was pretty straight forward.  One mistake I made which I payed for later on was that I installed a different version of python on the server than on my local machine.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Dont do this&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Initially I installed python 2.7.5, whereas my local environment was running 2.7.7.  I ran into an issue with the hmac.compare_digest function which caused numerous 500 errors which were not fun to track down.&lt;/p&gt;
+
+&lt;p&gt;To install python on your shared host, ssh into the server and from the home directory run the following commands:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;mkdir src
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;src
+wget http://www.python.org/ftp/python/&amp;lt;version&amp;gt;/Python-&amp;lt;version&amp;gt;.tgz
+tar -xzvf Python-&amp;lt;version&amp;gt;.tgz
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;Python-&amp;lt;version&amp;gt;
+./configure --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;/python
+make
+make install&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Where you would replace &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;version&amp;gt;&lt;/code&gt; with the version of python you are using.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-11---update-your-path&quot;&gt;Step 1.1 - Update your path&lt;/h2&gt;
+
+&lt;p&gt;Now you have to update your &lt;code class=&quot;highlighter-rouge&quot;&gt;$PATH&lt;/code&gt; so that when you run the &lt;code class=&quot;highlighter-rouge&quot;&gt;python&lt;/code&gt; command, it uses your python instead of the system installed one.  To do this simply run &lt;code class=&quot;highlighter-rouge&quot;&gt;vim ~/.bashrc&lt;/code&gt; (vim optional, use whatever text editor you want) and add the line &lt;code class=&quot;highlighter-rouge&quot;&gt;export PATH=$HOME/python/bin/:$PATH&lt;/code&gt;.  This makes it so that &lt;code class=&quot;highlighter-rouge&quot;&gt;python&lt;/code&gt; will resolve to your version instead of the system one.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;step-2---install-django&quot;&gt;Step 2 - Install Django&lt;/h1&gt;
+
+&lt;p&gt;The easiest way to install Django and all its dependancies is through pip.  To install pip, run the following commands from your &lt;code class=&quot;highlighter-rouge&quot;&gt;src&lt;/code&gt; directory:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now we can use pip to install django with:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;pip install django&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;There is one other thing that we need to run django through fastcgi called flup.  This can also be installed through pip with:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;pip install flup&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;step-3---transferring-files&quot;&gt;Step 3 - Transferring files&lt;/h1&gt;
+
+&lt;p&gt;This step can be done many different ways, so I will leave this one up to you.  Basically you need to get your django project files from your local machine to the server.
+I prefer to store them somewhere in the home directory, but its really up to.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;step-4---route-requests-through-your-django-app&quot;&gt;Step 4 - Route requests through your django app&lt;/h1&gt;
+
+&lt;p&gt;Now that your project is on the server, you need to route your requests through it somehow.
+Change directories into the root of your website (where you would normally store index.html, etc.), and create a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;yoursite&amp;gt;.fcgi&lt;/code&gt; (obviously replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;yoursite&amp;gt;&lt;/code&gt; with the name of your site) and add the following:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;#! /home/&amp;lt;yourusername&amp;gt;/python/bin/python&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/home/&amp;lt;yourusername&amp;gt;/python/lib/python2.7/site-packages&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;full path to your django project&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;environ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;DJANGO_SETTINGS_MODULE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;your project name&amp;gt;.settings&quot;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.core.servers.fastcgi&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runfastcgi&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;runfastcgi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;threaded&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;daemonize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Again, filling in your information.&lt;/p&gt;
+
+&lt;p&gt;chmod this file so that it can be executed:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;chmod 0755 &amp;lt;yoursite&amp;gt;.fcgi&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;And now running &lt;code class=&quot;highlighter-rouge&quot;&gt;./&amp;lt;yoursite&amp;gt;.fcgi&lt;/code&gt; should output the html code of your index page to the screen.&lt;/p&gt;
+
+&lt;p&gt;In order to route http requests to this script, you need to create a &lt;code class=&quot;highlighter-rouge&quot;&gt;.htaccess&lt;/code&gt; file in your website route (same directory as the fcgi file) which contains the following:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;AddHandler fcgid-script .fcgi
+RewriteEngine On
+RewriteCond %&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;HTTP_HOST&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; ^&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;.+&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;|&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&amp;lt;your site url&amp;gt;.com
+RewriteCond %&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;REQUEST_FILENAME&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; !-f
+RewriteRule ^&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&amp;lt;yoursite&amp;gt;.fcgi/&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;QSA,L]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;thats-it&quot;&gt;Thats it&lt;/h1&gt;
+
+&lt;p&gt;If you did everything right, you should be able to load yoursite.com and see your newly created django site in action.
+Now go turn debug to false and fix the other 800 errors that pushing to production caused ;)&lt;/p&gt;
+
+          
+          
+        
+      
+        </content><summary>I finally decided to suck it up and rewrite linkwallet in django.  I got sick of trying to maintain the messy PHP code that I had written and hacked onto over the years.</summary></entry><entry><title>Efficient Bank Queues</title><id>http://quinnftw.com/efficient-bank-queues/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/efficient-bank-queues/" /><published>2015-02-06T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;script type=&quot;text/javascript&quot; async=&quot;&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;p&gt;One of my friends who is taking a data structures class recently came to me for help with an interesting problem.  A formal description of which can be found &lt;a href=&quot;http://gamebrains.ca/254/Labs/lab4.pdf&quot;&gt;here&lt;/a&gt; (see part C).&lt;/p&gt;
+
+&lt;p&gt;Basically, you are asked to simulate two different styles of queues in a public place (for the purpose of this post I will be referring to a bank), and indicate which style results in a shorter mean wait time.&lt;/p&gt;
+
+&lt;h2 id=&quot;series-queueing&quot;&gt;Series Queueing&lt;/h2&gt;
+&lt;p&gt;Each teller has his/her own queue.  When a customer arrives, they will enter  the shortest queue in terms of people in the queue.  Once a customer has chosen a queue, they will not change queues (renege), or decide to leave before they have been served (balk).&lt;/p&gt;
+
+&lt;h2 id=&quot;parallel-queuing&quot;&gt;Parallel Queuing&lt;/h2&gt;
+&lt;p&gt;All tellers share a common queue, and serve the next customer once they become available.&lt;/p&gt;
+
+&lt;p&gt;The first time I read this question, I expected series queueing to be the better option, as it results in n queues moving concurrently.  After having researched a bit on &lt;a href=&quot;http://en.wikipedia.org/wiki/Queueing_theory&quot;&gt;queue theory&lt;/a&gt; (which I didn’t know existed before having seen this problem) I learned that parallel is in fact better.&lt;/p&gt;
+
+&lt;p&gt;The reason why this is the case is because with series queueing, a single slow customer will cause his/her entire line longer wait times.  Whereas with parallel queueing, one teller can help that slow customer while the rest of the customers flow to the other available tellers.&lt;/p&gt;
+
+&lt;p&gt;In more precise terms, the wait time for a customer in series queueing can be calculated as &lt;script type=&quot;math/tex&quot;&gt;\sum f(customer_i)&lt;/script&gt; where &lt;script type=&quot;math/tex&quot;&gt;f(x) = time\ required\ to\ serve\ x&lt;/script&gt;  As you can see, if any one customer has a large wait time it increases the wait time of each customer behind them.  The relation is very linear.&lt;/p&gt;
+
+&lt;p&gt;In contrast, parallel queuing produces an n-ary tree structure (where n is the number of tellers).  When a customer is at the front of the queue, they must only wait &lt;script type=&quot;math/tex&quot;&gt;min(\ f(x_i),\ f(x_{i+1}), ...,\ f(x_n)\ )&lt;/script&gt;.  Hence a customers wait time only depends on the minimum wait time of the customers in front of them, instead of the summation.&lt;/p&gt;
+
+&lt;p&gt;Parallel queuing is also a better option from a psychological stand point.  Since there is only one line, it removes the frustration of a customer choosing the “slower” line.  A frustrated customer is more likely to take longer to be served than a non-frustrated customer.  Also, in a real life situation a person would not take the time to count the number of people in each queue and choose the shortest one.  Un-optimal choices would result in even more frustration and longer wait
+times. Parallel queuing eliminates the need to make optimal choices, as their is only one option.&lt;/p&gt;
+
+&lt;h2 id=&quot;real-life-applications&quot;&gt;Real life applications&lt;/h2&gt;
+
+&lt;p&gt;Why is it then that many commercial places uses series queuing instead of parallel queueing?  Lack of knowledge aside, series queueing is much more space efficient.  A popular application of series queueing is in toll booths on busy bridges.  Hundreds of cars are able to fit in a relatively small plaza in multiple lines, whereas if there was only one line, some kind of zig-zag or spiral formation would be needed.  With these kind of formations issues arise.  Most people are not
+capable of forming a single line without the need of a physical barrier, so one must be built.  But now consider the situation where a car breaks down, how do the cars behind it continue on through the queue?  The barrier must be made wide enough to fit two cars.  Surely people will take advantage of this and attempt to cut others in line, creating another issue.&lt;/p&gt;
+
+&lt;p&gt;In a vacuum parallel queueing is the better option, but there are many situations where it is just not plausible.&lt;/p&gt;
+
+&lt;h2 id=&quot;simulation&quot;&gt;Simulation&lt;/h2&gt;
+
+&lt;p&gt;I wrote up a quick C++ program which simulates these two queuing styles and shows the mean wait times.  I found that when the variance on &lt;script type=&quot;math/tex&quot;&gt;f(x)&lt;/script&gt; was small, the difference in mean wait time was negligible.  When as I increased this variance it was apparent that parallel queuing was the more efficient option.  The source code to that program can be found &lt;a href=&quot;https://gist.github.com/Quinny/e81ab2e73f2e545acd31&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+
+          
+          
+        
+      
+        </content><summary></summary></entry><entry><title>PyTools</title><id>http://quinnftw.com/pytools.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/pytools.html" /><published>2014-03-12T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            
+
+          
+          
+        
+          &lt;p&gt;&lt;a href=&quot;https://github.com/Quinny/PyTools&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
+        
+      
+        </content><summary></summary></entry><entry><title>Linkwallet</title><id>http://quinnftw.com/linkwallet.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/linkwallet.html" /><published>2014-02-12T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            
+
+          
+          
+        
+          &lt;p&gt;&lt;a href=&quot;http://linkwallet.ca&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
+        
+      
+        </content><summary></summary></entry><entry><title>Github - everything else</title><id>http://quinnftw.com/github.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/github.html" /><published>2013-02-12T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+          
+            
+
+          
+          
+        
+          &lt;p&gt;&lt;a href=&quot;https://github.com/quinny&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
+        
+      
+        </content><summary></summary></entry></feed>

@@ -31,7 +31,6 @@ bower_components
 # AMSF specified
 _amsf/themes
 _amsf/core
-_site
 _app/assets/**/js
 _app/assets/**/css
 .jekyll-metadata

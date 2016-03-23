@@ -1,0 +1,4 @@
+User-agent: *
+
+
+Sitemap: http://quinnftw.com/sitemap.xml
