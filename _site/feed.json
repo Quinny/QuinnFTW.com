@@ -74,7 +74,7 @@
       "link": "http://quinnftw.com/c++-bloom-filter/",
       "date": "2016-10-16T00:00:00-04:00",
       
-        "modified": "2016-10-16T15:02:53-04:00",
+        "modified": "2016-10-16T15:05:32-04:00",
       
       "author": {
         "name": "Quinn Perfetto",
@@ -122,7 +122,7 @@
       "link": "http://quinnftw.com/c++-signals-and-slots/",
       "date": "2016-02-15T00:00:00-05:00",
       
-        "modified": "2016-10-16T10:48:23-04:00",
+        "modified": "2016-10-16T15:05:32-04:00",
       
       "author": {
         "name": "Quinn Perfetto",
@@ -170,14 +170,14 @@
       "link": "http://quinnftw.com/c++-trie/",
       "date": "2015-10-30T00:00:00-04:00",
       
-        "modified": "2016-02-13T15:14:22-05:00",
+        "modified": "2016-10-16T15:22:42-04:00",
       
       "author": {
         "name": "Quinn Perfetto",
         "url": "http://quinnftw.com",
         "email": "thequinnftw@gmail.com"
       },
-      "content": "Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)\nis an ordered tree data structure, such that each descendant of a given node in a trie share\na common prefix.  This property makes for fast prefix based queries (used in auto complete, spell check, etc.).\n\n\n\n\n  A trie with words a, at, ate, on, one, out, my, me, and mud.\nFilled in nodes denote the end of a word.\n\n\nImplementing a trie is similar to implementing any other n-ary tree, with a few key differences.\n\nThe Node\n\nEach node in a trie has a set of outgoing edges labeled by a character.  Each\nnode must also contain a flag indicating whether it is a valid word end.\n\nOutgoing edges can be represented by a map of char =&gt; node*.\n\nn[c] =&gt; m denotes that n has an outgoing edge labeled c, incident on m.\n\nThe end of word marker can be represented trivially by a boolean field.\n\nOur node ends up looking like this:\n\n\nThe Trie\n\nAs with most tree-like structures, the only data member required for a trie\nis a node which points to the root.\n\nTo insert into a trie, you simply iterate through the input string and walk the corresponding edge labels.\nIf a given edge does not exist, create it.  Once you have exhausted the input string, mark the node\nyou ended on as a valid end of word.\n\n\n\nSince trie_nodes are being dynamically allocated on the heap, they must be deleted.\nThe destructor for a trie needs to walk the tree and de-allocate all nodes.\nThis can be implemented using either a DFS or BFS traversal (I tend to prefer BFS)\n\n\n\nWith these functions, you have a working trie.  You can now begin to add functions\nwhich perform the prefix queries.  I have shown an example below.\n\nAuto complete\n\n\n\n",
+      "content": "Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)\nis an ordered tree data structure, such that each descendant of a given node in a trie share\na common prefix.  This property makes for fast prefix based queries (used in auto complete, spell check, etc.).\n\n\n\n\n  A trie with words a, at, ate, on, one, out, my, me, and mud.\nFilled in nodes denote the end of a word.\n\n\nImplementing a trie is similar to implementing any other n-ary tree, with a few key differences.\n\nThe Node\n\nEach node in a trie has a set of outgoing edges labeled by a character.  Each\nnode must also contain a flag indicating whether it is a valid word end.\n\nOutgoing edges can be represented by a map of char =&gt; node*.\n\nn[c] =&gt; m denotes that n has an outgoing edge labeled c, incident on m.\n\nThe end of word marker can be represented trivially by a boolean field.\n\nOur node ends up looking like this:\n\n\nThe Trie\n\nAs with most tree-like structures, the only data member required for a trie\nis a node which points to the root.\n\nTo insert into a trie, you simply iterate through the input string and walk the corresponding edge labels.\nIf a given edge does not exist, create it.  Once you have exhausted the input string, mark the node\nyou ended on as a valid end of word.\n\n\n\nSince tries have no cylces, we were able to use unique_ptr everywhere, and thus\ndo not need to worry about explicity freeing any memory assoicated with our trie.\n\nAuto complete\n\n\n\n",
       "excerpt": "Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)\nis an ordered tree data structure, such that each descendant of a given node in a trie share\na common prefix.  This property makes for fast prefix based queries (used in auto complete, spell check, etc.).\n\n",
       "languages": null,
       "categories": ["not-scary"],

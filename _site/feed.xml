@@ -67,7 +67,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>QuinnFTW.com</title>
   <subtitle>QuinnFTW.com - Quinn Perfetto</subtitle>
-  <updated>2016-10-16T15:02:54-04:00</updated>
+  <updated>2016-10-16T15:25:10-04:00</updated>
   <id>http://quinnftw.com/</id>
   <rights>Copyright © 2016, Quinn Perfetto</rights>
 
@@ -93,7 +93,7 @@
         <published>2016-10-16T00:00:00-04:00</published>
 
         
-          <updated>2016-10-16T15:02:53-04:00</updated>
+          <updated>2016-10-16T15:05:32-04:00</updated>
         
 
         <author>
@@ -263,7 +263,7 @@ generator with the output.  This generator can then be used to compute each of t
         <published>2016-02-15T00:00:00-05:00</published>
 
         
-          <updated>2016-10-16T10:48:23-04:00</updated>
+          <updated>2016-10-16T15:05:32-04:00</updated>
         
 
         <author>
@@ -446,7 +446,7 @@ An example usage of this code in a GUI setting follows.&lt;/p&gt;
         <published>2015-10-30T00:00:00-04:00</published>
 
         
-          <updated>2016-02-13T15:14:22-05:00</updated>
+          <updated>2016-10-16T15:22:42-04:00</updated>
         
 
         <author>
@@ -470,7 +470,7 @@ Filled in nodes denote the end of a word.&lt;/p&gt;
 
 &lt;p&gt;Implementing a trie is similar to implementing any other n-ary tree, with a few key differences.&lt;/p&gt;
 
-&lt;h2 id=&quot;the-node&quot;&gt;The Node&lt;/h2&gt;
+&lt;h1 id=&quot;the-node&quot;&gt;The Node&lt;/h1&gt;
 
 &lt;p&gt;Each node in a trie has a set of outgoing edges labeled by a character.  Each
 node must also contain a flag indicating whether it is a valid word end.&lt;/p&gt;
@@ -484,7 +484,7 @@ node must also contain a flag indicating whether it is a valid word end.&lt;/p&g
 &lt;p&gt;Our node ends up looking like this:
 &lt;script src=&quot;https://gist.github.com/Quinny/960f872f88ca86b741cc.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;the-trie&quot;&gt;The Trie&lt;/h2&gt;
+&lt;h1 id=&quot;the-trie&quot;&gt;The Trie&lt;/h1&gt;
 
 &lt;p&gt;As with most tree-like structures, the only data member required for a trie
 is a node which points to the root.&lt;/p&gt;
@@ -495,14 +495,8 @@ you ended on as a valid end of word.&lt;/p&gt;
 
 &lt;script src=&quot;https://gist.github.com/Quinny/b2e09745aee0e60e5414.js&quot;&gt;&lt;/script&gt;
 
-&lt;p&gt;Since trie_nodes are being dynamically allocated on the heap, they must be deleted.
-The destructor for a trie needs to walk the tree and de-allocate all nodes.
-This can be implemented using either a DFS or BFS traversal (I tend to prefer BFS)&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/Quinny/6a3079fc7d552eee76ee.js&quot;&gt;&lt;/script&gt;
-
-&lt;p&gt;With these functions, you have a working trie.  You can now begin to add functions
-which perform the prefix queries.  I have shown an example below.&lt;/p&gt;
+&lt;p&gt;Since tries have no cylces, we were able to use unique_ptr everywhere, and thus
+do not need to worry about explicity freeing any memory assoicated with our trie.&lt;/p&gt;
 
 &lt;h2 id=&quot;auto-complete&quot;&gt;Auto complete&lt;/h2&gt;
 
