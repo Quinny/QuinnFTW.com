@@ -1,1 +1,275 @@
-<?xml version="1.0" encoding="utf-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>http://quinnftw.com/</loc><lastmod>2016-03-28</lastmod></url><url><loc>http://quinnftw.com/about/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/blog/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/ipd-research-paper/</loc><lastmod>2016-03-23</lastmod></url><url><loc>http://quinnftw.com/problem-of-the-week/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/c++-trie/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/margare_t/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/potw-api/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/c++-graph-implementation/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/farmer-kelly/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/lets-eat-grandpa/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/calculating-coolness/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/creating-my-personal-api.html</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/using-angular-with-jekyll/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/generic-container-benchmarking/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/deploying-django-on-a-shared-host/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/efficient-bank-queues/</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/pytools.html</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/linkwallet.html</loc><lastmod>2016-02-13</lastmod></url><url><loc>http://quinnftw.com/github.html</loc><lastmod>2016-02-13</lastmod></url></urlset>
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://quinnftw.com/</loc>
+    <lastmod>2016-10-16</lastmod>
+  </url>
+
+  
+    
+      <url>
+        <loc>http://quinnftw.com/about/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/blog/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+
+  
+    
+      <url>
+        <loc>http://quinnftw.com/c++-bloom-filter/</loc>
+        
+          <lastmod>2016-10-16</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/ipd-research-paper/</loc>
+        
+          <lastmod>2016-03-23</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/c++-signals-and-slots/</loc>
+        
+          <lastmod>2016-10-16</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/problem-of-the-week/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/c++-trie/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/margare_t/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/potw-api/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/c++-graph-implementation/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/farmer-kelly/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/lets-eat-grandpa/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/calculating-coolness/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/creating-my-personal-api.html</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/using-angular-with-jekyll/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/generic-container-benchmarking/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/deploying-django-on-a-shared-host/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/efficient-bank-queues/</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/pytools.html</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/linkwallet.html</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://quinnftw.com/github.html</loc>
+        
+          <lastmod>2016-02-13</lastmod>
+        
+      </url>
+    
+  
+
+</urlset>

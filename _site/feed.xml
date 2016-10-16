@@ -1,4 +1,239 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>QuinnFTW.com</title><subtitle>QuinnFTW.com - Quinn Perfetto</subtitle><updated>2016-03-28T09:30:21-04:00</updated><id>http://quinnftw.com/</id><rights>Copyright © 2016, Quinn Perfetto</rights><link rel="alternate" type="text/html" hreflang="en" href="http://quinnftw.com/" /><link rel="self" type="application/atom+xml" href="http://quinnftw.com/feed.xml" /><author><name>Quinn Perfetto</name><uri>http://quinnftw.com/</uri><email>thequinnftw@gmail.com</email></author><entry><title>IPD Research Paper</title><id>http://quinnftw.com/ipd-research-paper/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/ipd-research-paper/" /><published>2016-03-23T00:00:00-04:00</published><updated>2016-03-23T09:31:03-04:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>QuinnFTW.com</title>
+  <subtitle>QuinnFTW.com - Quinn Perfetto</subtitle>
+  <updated>2016-10-16T15:02:54-04:00</updated>
+  <id>http://quinnftw.com/</id>
+  <rights>Copyright © 2016, Quinn Perfetto</rights>
+
+  <link rel="alternate" type="text/html" hreflang="en" href="http://quinnftw.com/" />
+  <link rel="self" type="application/atom+xml" href="http://quinnftw.com/feed.xml" />
+
+  <author>
+    <name>Quinn Perfetto</name>
+    <uri>http://quinnftw.com/</uri>
+    <email>thequinnftw@gmail.com</email>
+  </author>
+
+  
+    
+      
+
+      
+
+      <entry>
+        <title>A non-scary C++ Bloom Filter Implementation</title>
+        <id>http://quinnftw.com/c++-bloom-filter/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/c++-bloom-filter/" />
+        <published>2016-10-16T00:00:00-04:00</published>
+
+        
+          <updated>2016-10-16T15:02:53-04:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;A bloom filter is a space efficient data structure which answers the question of
+“Do you contain this element?” with either “Maybe” or “Definitely not”.  Bloom
+filters trade-off the total confidence of a typical hash set with a huge reduction
+in memory.&lt;/p&gt;
+
+&lt;h1 id=&quot;how-do-they-work&quot;&gt;How do they work?&lt;/h1&gt;
+
+&lt;p&gt;Under the hood a bloom filter is just an array of bits.  Initially, all bits are set to 0.
+When an item is inserted, it is hashed with &lt;code&gt;K&lt;/code&gt; different hash functions.
+These hash functions provide &lt;code&gt;K&lt;/code&gt; indices into the bit array, which are
+all flipped from 0 to 1.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/bf1.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Inserting “Cat” and “Dog” into a bloom filter with &lt;code&gt;K=2&lt;/code&gt; different
+hash functions.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It then follows that an item is “Maybe” in the bloom filter if for each of
+its hash indices, the corresponding bit is set to 1.  Why only maybe?  There is
+no such thing as the “perfect” hash function, consequently collisions introduce
+a probability for error.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/bf2.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;“Bird” collides with other entries.  This means that the Bloom filter
+would identify “Bird” as maybe being a member of the set, when in reality it’s
+not.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The upside is that if any of the hash indices are 0 for a given
+element, we can be 100% confident that element is not in the set.  This means
+that Bloom filters can produce &lt;b&gt;false positives&lt;/b&gt; but never
+&lt;b&gt;false negatives&lt;/b&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;memory-savings-vs-a-typical-hash-set&quot;&gt;Memory Savings v.s. a Typical Hash Set&lt;/h1&gt;
+
+&lt;p&gt;&lt;i&gt;Beware, sketchy math ahead&lt;/i&gt;&lt;/p&gt;
+
+&lt;p&gt;There is some fancy math on the &lt;a href=&quot;https://en.wikipedia.org/wiki/Bloom_filter&quot;&gt;wikipedia&lt;/a&gt;
+page that states fewer than 10 bits per item is required for a 1% false
+positive rate.  Lets assume we want to store 1,000,000 ASCII strings with an
+average length of 10 characters.&lt;/p&gt;
+
+&lt;p&gt;For a bloom filter this would require:&lt;/p&gt;
+&lt;table border=&quot;1&quot;&gt;
+&lt;td&gt;10 bits per element&lt;/td&gt;
+&lt;td&gt;10,000,000 bits&lt;/td&gt;
+&lt;tr&gt;
+&lt;td&gt;Total size&lt;/td&gt;
+&lt;td&gt;1.19MB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;i&gt;Note that the actual size of the data does not influence the size of the table.&lt;/i&gt;&lt;/p&gt;
+
+&lt;p&gt;For a hash set with an 80% occupancy rate this would require:&lt;/p&gt;
+&lt;table border=&quot;1&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;1,200,000 32 bit pointers&lt;/td&gt;
+&lt;td&gt;38,400,000 bits&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1,000,000 32 bit hash values&lt;/td&gt;&lt;td&gt;32,000,000 bits&lt;/td&gt;
+&lt;/tr&gt;
+&lt;td&gt;1,000,000 10 byte strings for collision checking&lt;/td&gt;
+&lt;td&gt;80,000,000 bits&lt;/td&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Total size&lt;/td&gt;
+&lt;td&gt;18.75MB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The space savings are pretty large if you can afford a 1% margin for error.&lt;/p&gt;
+
+&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
+
+&lt;p&gt;Bloom filters are pretty straight forward, the one catch is: &lt;strong&gt;Where the hell
+do we get all these hash functions?&lt;/strong&gt;  In practise it is not feasible to have to
+write &lt;code&gt;K&lt;/code&gt; hash functions for some potentially large &lt;code&gt;K&lt;/code&gt; value.
+A commonly used trick is to use a single hash function, and seed a uniform random
+generator with the output.  This generator can then be used to compute each of the &lt;code&gt;K&lt;/code&gt;
+“hash values.”&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Quinny/59e84676fbbafe05317fa9d852c5012b.js&quot;&gt;&lt;/script&gt;
+
+&lt;h1 id=&quot;practical-applications&quot;&gt;Practical Applications&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.quora.com/What-are-the-best-applications-of-Bloom-filters&quot;&gt;Yahoo email contact check&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/14403383/bloom-filter-usage&quot;&gt;Malicious website verification&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+          
+          
+        
+      
+        </content>
+
+        
+          <summary>A bloom filter is a space efficient data structure which answers the question of“Do you contain this element?” with either “Maybe” or “Definitely not”.  Bloomfilters trade-off the total confidence of a typical hash set with a huge reductionin memory.</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>IPD Research Paper</title>
+        <id>http://quinnftw.com/ipd-research-paper/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/ipd-research-paper/" />
+        <published>2016-03-23T00:00:00-04:00</published>
+
+        
+          <updated>2016-03-23T09:31:03-04:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             
 
@@ -8,7 +243,180 @@
           &lt;p&gt;&lt;a href=&quot;/ipd.pdf&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
         
       
-        </content><summary></summary></entry><entry><title>Problem of the week</title><id>http://quinnftw.com/problem-of-the-week/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/problem-of-the-week/" /><published>2016-02-12T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary></summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>A non-scary C++ signals and slots implementation</title>
+        <id>http://quinnftw.com/c++-signals-and-slots/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/c++-signals-and-slots/" />
+        <published>2016-02-15T00:00:00-05:00</published>
+
+        
+          <updated>2016-10-16T10:48:23-04:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;I was reading hacker news not too long ago and came across a &lt;a href=&quot;https://github.com/pbhogan/Signals&quot;&gt;c++ signals
+and slots implementation&lt;/a&gt;.  It was
+very clearly implemented pre-c++11, and is pretty difficult to read.  I thought
+I would try my hand at coming up with something a little more modern, taking
+advantage of &lt;code class=&quot;highlighter-rouge&quot;&gt;std::function&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;signals-and-slots&quot;&gt;Signals and slots&lt;/h2&gt;
+
+&lt;p&gt;Signals and slots is a common way of implementing the observer pattern while
+avoiding messy boiler plate code and forced inheritance.  The idea is that 
+the &lt;em&gt;observable objects&lt;/em&gt; can send &lt;em&gt;signals&lt;/em&gt; to callable objects (&lt;em&gt;slots&lt;/em&gt;).  It is
+commonly used in GUI programming for handling events such as mouse clicks, button
+presses, etc. but is also useful in other environments such as asynchronous message
+passing.&lt;/p&gt;
+
+&lt;h2 id=&quot;designing-the-components&quot;&gt;Designing the components&lt;/h2&gt;
+
+&lt;h3 id=&quot;the-slot&quot;&gt;The slot&lt;/h3&gt;
+
+&lt;p&gt;The first thing that needed to be done was to implement the type that would be receiving
+the signals.  The number one goal here was strong typed-ness.  I &lt;strong&gt;really&lt;/strong&gt; wanted
+to avoid going the java route where the observer receiving function just takes
+in an &lt;code class=&quot;highlighter-rouge&quot;&gt;Object&lt;/code&gt; and leaves it up to the handler to cast it into something usable. 
+I personally find that choice to be super hacky.&lt;/p&gt;
+
+&lt;p&gt;Thankfully C++ provides a &lt;code class=&quot;highlighter-rouge&quot;&gt;std::function&lt;/code&gt; type which allows for template parameters
+and will type check at compile time.  The signal receiver type can then be a 
+specialization of &lt;code class=&quot;highlighter-rouge&quot;&gt;std::function&lt;/code&gt; in which the return type is always void, and 
+accepts a variable number of input parameter types.  I called it &lt;em&gt;delegate&lt;/em&gt;
+(inspired by the c# type) and defined it as:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c--&quot; data-lang=&quot;c++&quot;&gt;&lt;span class=&quot;k&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typename&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The nice thing about &lt;code class=&quot;highlighter-rouge&quot;&gt;std::function&lt;/code&gt; is that it can accept any callable
+object including lambdas and functors (callable objects).&lt;/p&gt;
+
+&lt;h3 id=&quot;the-signal&quot;&gt;The signal&lt;/h3&gt;
+
+&lt;p&gt;Now that the slot is done, the signal type is trivial.  We simply need
+to maintain a list of slots, and expose an interface for registering new slots
+and sending messages to them.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c--&quot; data-lang=&quot;c++&quot;&gt;&lt;span class=&quot;k&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typename&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;signal&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;private&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fn_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;observers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;observers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;operator&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;observers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You can now embed this signal type inside of GUI components, pass it as an 
+asynchronous callback, etc. without having to worry about any kind of boilerplate
+or inheritance.  You also avoid having to perform any cast or type checking operations
+inside the slot.
+An example usage of this code in a GUI setting follows.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c--&quot; data-lang=&quot;c++&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &quot;signal.h&quot;
+#include &amp;lt;string&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;functional&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;qp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;signal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clicked!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;changeText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;placeholders&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;button1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;button1&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;changeText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ref&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// or
+&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// button1.update.connect([&amp;amp;](std::string s) { label1.changeText(s); });
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;button1&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;changeText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ref&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;button1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://gist.github.com/Quinny/aa2ed2189a3c4209b50f&quot;&gt;Full Code&lt;/a&gt;&lt;/p&gt;
+
+          
+          
+        
+      
+        </content>
+
+        
+          <summary>I was reading hacker news not too long ago and came across a c++ signalsand slots implementation.  It wasvery clearly implemented pre-c++11, and is pretty difficult to read.  I thoughtI would try my hand at coming up with something a little more modern, takingadvantage of std::function.</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Problem of the week</title>
+        <id>http://quinnftw.com/problem-of-the-week/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/problem-of-the-week/" />
+        <published>2016-02-12T00:00:00-05:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             
 
@@ -18,7 +426,36 @@
           &lt;p&gt;&lt;a href=&quot;http://potw.quinnftw.com&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
         
       
-        </content><summary></summary></entry><entry><title>A non-scary C++ trie implementation</title><id>http://quinnftw.com/c++-trie/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/c++-trie/" /><published>2015-10-30T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary></summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>A non-scary C++ trie implementation</title>
+        <id>http://quinnftw.com/c++-trie/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/c++-trie/" />
+        <published>2015-10-30T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)
 is an ordered tree data structure, such that each descendant of a given node in a trie share
@@ -76,7 +513,36 @@ which perform the prefix queries.  I have shown an example below.&lt;/p&gt;
           
         
       
-        </content><summary>Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)is an ordered tree data structure, such that each descendant of a given node in a trie sharea common prefix.  This property makes for fast prefix based queries (used in auto complete, spell check, etc.).</summary></entry><entry><title>Event Planning</title><id>http://quinnftw.com/margare_t/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/margare_t/" /><published>2015-10-21T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>Tries are a lesser known, but very useful data structure.  A trie (or prefix tree)is an ordered tree data structure, such that each descendant of a given node in a trie sharea common prefix.  This property makes for fast prefix based queries (used in auto complete, spell check, etc.).</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Event Planning</title>
+        <id>http://quinnftw.com/margare_t/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/margare_t/" />
+        <published>2015-10-21T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/6/&quot;&gt;View Problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
@@ -178,7 +644,36 @@ node has and we can implement this algorithm&lt;/li&gt;
           
         
       
-        </content><summary>View Problem</summary></entry><entry><title>POTW API</title><id>http://quinnftw.com/potw-api/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/potw-api/" /><published>2015-10-15T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>View Problem</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>POTW API</title>
+        <id>http://quinnftw.com/potw-api/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/potw-api/" />
+        <published>2015-10-15T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/5/&quot;&gt;View problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
@@ -278,7 +773,36 @@ in the I/O call&lt;/li&gt;
           
         
       
-        </content><summary>View problem</summary></entry><entry><title>A non-scary C++ graph implementation</title><id>http://quinnftw.com/c++-graph-implementation/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/c++-graph-implementation/" /><published>2015-10-04T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>View problem</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>A non-scary C++ graph implementation</title>
+        <id>http://quinnftw.com/c++-graph-implementation/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/c++-graph-implementation/" />
+        <published>2015-10-04T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;If you have ever tried to google for a C++ graph implementation you mostly likely 
 came across a big heaping (&lt;a href=&quot;http://gribblelab.org/CBootcamp/7_Memory_Stack_vs_Heap.html&quot;&gt;pun intended&lt;/a&gt;) mess of pointers.  While this approach 
@@ -357,7 +881,36 @@ of the more complicated algorithms).&lt;/p&gt;
           
         
       
-        </content><summary>If you have ever tried to google for a C++ graph implementation you mostly likely came across a big heaping (pun intended) mess of pointers.  While this approach works fine, the code is very clunky and the interface tends to become awkward to use.</summary></entry><entry><title>Farmer Kelly</title><id>http://quinnftw.com/farmer-kelly/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/farmer-kelly/" /><published>2015-10-02T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>If you have ever tried to google for a C++ graph implementation you mostly likely came across a big heaping (pun intended) mess of pointers.  While this approach works fine, the code is very clunky and the interface tends to become awkward to use.</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Farmer Kelly</title>
+        <id>http://quinnftw.com/farmer-kelly/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/farmer-kelly/" />
+        <published>2015-10-02T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/4/&quot;&gt;View problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
@@ -458,7 +1011,36 @@ as well as the bounding rows&lt;/li&gt;
           
         
       
-        </content><summary>View problem</summary></entry><entry><title>Lets Eat Grandpa</title><id>http://quinnftw.com/lets-eat-grandpa/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/lets-eat-grandpa/" /><published>2015-09-25T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>View problem</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Lets Eat Grandpa</title>
+        <id>http://quinnftw.com/lets-eat-grandpa/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/lets-eat-grandpa/" />
+        <published>2015-09-25T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/3/&quot;&gt;View Problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
@@ -578,7 +1160,36 @@ and then repeat the process with the remaining string&lt;/li&gt;
           
         
       
-        </content><summary>View Problem</summary></entry><entry><title>Calculating Coolness</title><id>http://quinnftw.com/calculating-coolness/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/calculating-coolness/" /><published>2015-09-20T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>View Problem</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Calculating Coolness</title>
+        <id>http://quinnftw.com/calculating-coolness/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/calculating-coolness/" />
+        <published>2015-09-20T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;&lt;em&gt;&lt;a href=&quot;http://potw.quinnftw.com/problem/2015/2/&quot;&gt;View Problem&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
@@ -708,7 +1319,36 @@ the coolest guy around Quinn&lt;/p&gt;
           
         
       
-        </content><summary>View Problem</summary></entry><entry><title>Personal API</title><id>http://quinnftw.com/creating-my-personal-api.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/creating-my-personal-api.html" /><published>2015-08-18T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>View Problem</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Personal API</title>
+        <id>http://quinnftw.com/creating-my-personal-api.html</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/creating-my-personal-api.html" />
+        <published>2015-08-18T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;&lt;a href=&quot;http://api.quinnftw.com&quot;&gt;Final Product&lt;/a&gt;&lt;/p&gt;
 
@@ -770,7 +1410,36 @@ my code, &lt;a href=&quot;/contact/&quot;&gt;let me know!&lt;/a&gt;.&lt;/p&gt;
           
         
       
-        </content><summary>Final Product</summary></entry><entry><title>Using Angular with Jekyll</title><id>http://quinnftw.com/using-angular-with-jekyll/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/using-angular-with-jekyll/" /><published>2015-07-26T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>Final Product</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Using Angular with Jekyll</title>
+        <id>http://quinnftw.com/using-angular-with-jekyll/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/using-angular-with-jekyll/" />
+        <published>2015-07-26T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;Earlier today I decided to try and clean up some of the jquery soup on my 
 website by bringing some nice and orgainized angular into the mix. 
@@ -794,7 +1463,36 @@ like &lt;code class=&quot;highlighter-rouge&quot;&gt;[[&lt;/code&gt; and &lt;cod
           
         
       
-        </content><summary>Earlier today I decided to try and clean up some of the jquery soup on my website by bringing some nice and orgainized angular into the mix. For about 30 minutes I was pulling my hair out trying to figure out why my angular expressions weren’t working, until I finally realized that angular and liquid markdown share the exact same expression delimiters: {{ and }} (just getting those to show in this post took some leg work).  So the liquid markdown parser scans through and consumes all the angular expressions and then when the html is rendered, there is nothing for angular to evaluate.</summary></entry><entry><title>Generic Container Benchmarking</title><id>http://quinnftw.com/generic-container-benchmarking/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/generic-container-benchmarking/" /><published>2015-04-08T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>Earlier today I decided to try and clean up some of the jquery soup on my website by bringing some nice and orgainized angular into the mix. For about 30 minutes I was pulling my hair out trying to figure out why my angular expressions weren’t working, until I finally realized that angular and liquid markdown share the exact same expression delimiters: {{ and }} (just getting those to show in this post took some leg work).  So the liquid markdown parser scans through and consumes all the angular expressions and then when the html is rendered, there is nothing for angular to evaluate.</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Generic Container Benchmarking</title>
+        <id>http://quinnftw.com/generic-container-benchmarking/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/generic-container-benchmarking/" />
+        <published>2015-04-08T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;&lt;a href=&quot;https://github.com/Quinny/Container-Benchmark&quot;&gt;Final Product&lt;/a&gt;&lt;/p&gt;
 
@@ -943,7 +1641,36 @@ provided containers and outputs the results in a nice colored format.&lt;/p&gt;
           
         
       
-        </content><summary>Final Product</summary></entry><entry><title>Deploying django on a shared host</title><id>http://quinnftw.com/deploying-django-on-a-shared-host/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/deploying-django-on-a-shared-host/" /><published>2015-03-07T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>Final Product</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Deploying django on a shared host</title>
+        <id>http://quinnftw.com/deploying-django-on-a-shared-host/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/deploying-django-on-a-shared-host/" />
+        <published>2015-03-07T00:00:00-05:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;p&gt;I finally decided to suck it up and rewrite &lt;a href=&quot;http://linkwallet.ca&quot;&gt;linkwallet&lt;/a&gt; in django.  I got sick of trying to maintain the messy PHP code that I had written and hacked onto over the years.&lt;/p&gt;
 
@@ -1047,7 +1774,36 @@ Now go turn debug to false and fix the other 800 errors that pushing to producti
           
         
       
-        </content><summary>I finally decided to suck it up and rewrite linkwallet in django.  I got sick of trying to maintain the messy PHP code that I had written and hacked onto over the years.</summary></entry><entry><title>Efficient Bank Queues</title><id>http://quinnftw.com/efficient-bank-queues/</id><link rel="alternate" type="text/html" href="http://quinnftw.com/efficient-bank-queues/" /><published>2015-02-06T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary>I finally decided to suck it up and rewrite linkwallet in django.  I got sick of trying to maintain the messy PHP code that I had written and hacked onto over the years.</summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Efficient Bank Queues</title>
+        <id>http://quinnftw.com/efficient-bank-queues/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/efficient-bank-queues/" />
+        <published>2015-02-06T00:00:00-05:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             &lt;script type=&quot;text/javascript&quot; async=&quot;&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML&quot;&gt;
 &lt;/script&gt;
@@ -1089,7 +1845,36 @@ capable of forming a single line without the need of a physical barrier, so one 
           
         
       
-        </content><summary></summary></entry><entry><title>PyTools</title><id>http://quinnftw.com/pytools.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/pytools.html" /><published>2014-03-12T00:00:00-04:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary></summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>PyTools</title>
+        <id>http://quinnftw.com/pytools.html</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/pytools.html" />
+        <published>2014-03-12T00:00:00-04:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             
 
@@ -1099,7 +1884,36 @@ capable of forming a single line without the need of a physical barrier, so one 
           &lt;p&gt;&lt;a href=&quot;https://github.com/Quinny/PyTools&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
         
       
-        </content><summary></summary></entry><entry><title>Linkwallet</title><id>http://quinnftw.com/linkwallet.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/linkwallet.html" /><published>2014-02-12T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary></summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Linkwallet</title>
+        <id>http://quinnftw.com/linkwallet.html</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/linkwallet.html" />
+        <published>2014-02-12T00:00:00-05:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             
 
@@ -1109,7 +1923,36 @@ capable of forming a single line without the need of a physical barrier, so one 
           &lt;p&gt;&lt;a href=&quot;http://linkwallet.ca&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
         
       
-        </content><summary></summary></entry><entry><title>Github - everything else</title><id>http://quinnftw.com/github.html</id><link rel="alternate" type="text/html" href="http://quinnftw.com/github.html" /><published>2013-02-12T00:00:00-05:00</published><updated>2016-02-13T15:14:22-05:00</updated><author><name>Quinn Perfetto</name><uri>http://quinnftw.com</uri><email>thequinnftw@gmail.com</email></author><content type="html" xml:base="http://quinnftw.com/">
+        </content>
+
+        
+          <summary></summary>
+        
+      </entry>
+    
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Github - everything else</title>
+        <id>http://quinnftw.com/github.html</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/github.html" />
+        <published>2013-02-12T00:00:00-05:00</published>
+
+        
+          <updated>2016-02-13T15:14:22-05:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
           
             
 
@@ -1119,4 +1962,12 @@ capable of forming a single line without the need of a physical barrier, so one 
           &lt;p&gt;&lt;a href=&quot;https://github.com/quinny&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
         
       
-        </content><summary></summary></entry></feed>
+        </content>
+
+        
+          <summary></summary>
+        
+      </entry>
+    
+  
+</feed>

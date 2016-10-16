@@ -23,3 +23,5 @@ file:           /assets
 
 # Force UTF-8 since local server doesn't send charset in their respond header
 force_utf_8:    true
+
+amsf_theme_base: "themes/curtana"

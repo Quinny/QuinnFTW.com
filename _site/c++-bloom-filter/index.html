@@ -1,0 +1,466 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+
+
+  <meta charset="utf-8">
+
+
+<title>A non-scary C++ Bloom Filter Implementation · QuinnFTW.com</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Define a description for better SEO result -->
+<meta name="description" content="A bloom filter is a space efficient data structure which answers the question of“Do you contain this element?” with either “Maybe” or “Definitely not”.  Bloomfilters trade-off the total confidence of a typical hash set with a huge reductionin memory.">
+
+<!-- Feed URL -->
+<link rel="alternate" href="/feed.xml" type="application/atom+xml">
+
+<!-- Site icons -->
+
+
+<!-- Main CSS -->
+<link rel="stylesheet" href="/assets/themes/curtana/css/app.css?assets-inline">
+
+<!-- Canonical links, avoid duplicate content problems -->
+<link rel="canonical" href="http://quinnftw.com/c++-bloom-filter/">
+
+<!-- DNS prefetching for static files -->
+
+
+<!-- browser-sync, don't remove this -->
+<!-- BS_INSERT -->
+
+<!-- Head hooks -->
+
+
+<!-- Open Graph and Twitter Cards support, more info: https://dev.twitter.com/docs/cards -->
+
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QuinnFTW.com">
+<meta property="og:title" content="A non-scary C++ Bloom Filter Implementation">
+<meta property="og:url" content="http://quinnftw.com/c++-bloom-filter/">
+<meta property="og:description" content="A bloom filter is a space efficient data structure which answers the question of“Do you contain this element?” with either “Maybe” or “Definitely not”.  Bloomfilters trade-off the total confidence of a typical hash set with a huge reductionin memory.">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A non-scary C++ Bloom Filter Implementation">
+<meta name="twitter:url" content="http://quinnftw.com/c++-bloom-filter/">
+<meta name="twitter:description" content="A bloom filter is a space efficient data structure which answers the question of“Do you contain this element?” with either “Maybe” or “Definitely not”.  Bloomfilters trade-off the total confidence of a typical hash set with a huge reductionin memory.">
+
+
+  <meta property="article:published_time" content="2016-10-16T00:00:00-04:00">
+  <meta property="article:modified_time" content="2016-10-16T00:00:00-04:00">
+
+  <meta name="twitter:label1" value="Words">
+  <meta name="twitter:data1" value="476 words">
+  <meta name="twitter:label2" value="Reading time">
+  <meta name="twitter:data2" value="2 mins">
+
+
+
+
+
+
+
+
+<!-- Post / page specified styles -->
+
+
+<!-- Post specified styles -->
+<style data-assets-inline>
+  body {
+    
+
+    
+  }
+
+  
+
+    
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</style>
+
+<!-- Header, just a logo at the moment -->
+<header>
+  <a href="/" class=logo accesskey=x>
+    <h1>QuinnFTW.com</h1>
+  </a>
+</header>
+
+<!-- Main navigation with current page / categoriy highlighted -->
+<nav class="navigation">
+  <ul>
+    
+      
+      <li >
+        <a href="/">
+          Home
+        </a>
+      </li>
+    
+      
+      <li >
+        <a href="/about/">
+          About
+        </a>
+      </li>
+    
+      
+      <li >
+        <a href="/resume.pdf">
+          Resume
+        </a>
+      </li>
+    
+      
+      <li >
+        <a href="/blog/">
+          Blog
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+<!-- Main content wrap -->
+
+
+<main class="content  
+  
+" role=main>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Post-wide custom CSS -->
+
+  
+
+
+<!-- Prepare for image headers -->
+
+
+<!-- Prepare for SVG header -->
+
+
+
+
+
+
+
+
+
+
+<!-- Article wrapper, limit width -->
+<article 
+  
+>
+
+  <!-- Post title -->
+  <header>
+
+    <h1 class="
+  
+" title="A non-scary C++ Bloom Filter Implementation">
+      
+  
+    
+  
+    A non-scary C++ Bloom Filter Implementation<span class="dot dot--post"></span>
+  
+
+  
+
+    </h1>
+
+    
+      <small>
+        By <span rel="author">Quinn Perfetto</span>
+        on <time datetime="2016-10-16T00:00:00-04:00">Oct 16, 2016</time>
+      </small>
+    
+
+    
+
+  </header>
+
+  <!-- Post content -->
+  <div class="post-content">
+    <p>A bloom filter is a space efficient data structure which answers the question of
+“Do you contain this element?” with either “Maybe” or “Definitely not”.  Bloom
+filters trade-off the total confidence of a typical hash set with a huge reduction
+in memory.</p>
+
+<h1 id="how-do-they-work">How do they work?</h1>
+
+<p>Under the hood a bloom filter is just an array of bits.  Initially, all bits are set to 0.
+When an item is inserted, it is hashed with <code>K</code> different hash functions.
+These hash functions provide <code>K</code> indices into the bit array, which are
+all flipped from 0 to 1.</p>
+
+<p><img src="/assets/images/bf1.jpg" /></p>
+
+<blockquote>
+  <p>Inserting “Cat” and “Dog” into a bloom filter with <code>K=2</code> different
+hash functions.</p>
+</blockquote>
+
+<p>It then follows that an item is “Maybe” in the bloom filter if for each of
+its hash indices, the corresponding bit is set to 1.  Why only maybe?  There is
+no such thing as the “perfect” hash function, consequently collisions introduce
+a probability for error.</p>
+
+<p><img src="/assets/images/bf2.jpg" /></p>
+
+<blockquote>
+  <p>“Bird” collides with other entries.  This means that the Bloom filter
+would identify “Bird” as maybe being a member of the set, when in reality it’s
+not.</p>
+</blockquote>
+
+<p>The upside is that if any of the hash indices are 0 for a given
+element, we can be 100% confident that element is not in the set.  This means
+that Bloom filters can produce <b>false positives</b> but never
+<b>false negatives</b>.</p>
+
+<h1 id="memory-savings-vs-a-typical-hash-set">Memory Savings v.s. a Typical Hash Set</h1>
+
+<p><i>Beware, sketchy math ahead</i></p>
+
+<p>There is some fancy math on the <a href="https://en.wikipedia.org/wiki/Bloom_filter">wikipedia</a>
+page that states fewer than 10 bits per item is required for a 1% false
+positive rate.  Lets assume we want to store 1,000,000 ASCII strings with an
+average length of 10 characters.</p>
+
+<p>For a bloom filter this would require:</p>
+<table border="1">
+<td>10 bits per element</td>
+<td>10,000,000 bits</td>
+<tr>
+<td>Total size</td>
+<td>1.19MB</td>
+</tr>
+</table>
+
+<p><i>Note that the actual size of the data does not influence the size of the table.</i></p>
+
+<p>For a hash set with an 80% occupancy rate this would require:</p>
+<table border="1">
+<tr>
+<td>1,200,000 32 bit pointers</td>
+<td>38,400,000 bits</td>
+</tr>
+<tr>
+<td>1,000,000 32 bit hash values</td><td>32,000,000 bits</td>
+</tr>
+<td>1,000,000 10 byte strings for collision checking</td>
+<td>80,000,000 bits</td>
+
+<tr>
+<td>Total size</td>
+<td>18.75MB</td>
+</tr>
+</table>
+
+<p>The space savings are pretty large if you can afford a 1% margin for error.</p>
+
+<h1 id="implementation">Implementation</h1>
+
+<p>Bloom filters are pretty straight forward, the one catch is: <strong>Where the hell
+do we get all these hash functions?</strong>  In practise it is not feasible to have to
+write <code>K</code> hash functions for some potentially large <code>K</code> value.
+A commonly used trick is to use a single hash function, and seed a uniform random
+generator with the output.  This generator can then be used to compute each of the <code>K</code>
+“hash values.”</p>
+
+<script src="https://gist.github.com/Quinny/59e84676fbbafe05317fa9d852c5012b.js"></script>
+
+<h1 id="practical-applications">Practical Applications</h1>
+
+<ul>
+  <li><a href="https://www.quora.com/What-are-the-best-applications-of-Bloom-filters">Yahoo email contact check</a></li>
+  <li><a href="http://stackoverflow.com/questions/14403383/bloom-filter-usage">Malicious website verification</a></li>
+</ul>
+
+
+    
+    
+
+    
+  </div>
+
+</article>
+
+
+
+</main>
+
+<!-- Footer section -->
+
+  <footer class="footer">
+    <ul>
+      <li><a href="/">QuinnFTW.com</a></li>
+
+      
+
+      
+
+      <li><a href="/feed.xml" title="Feed - Atom (The Atom Syndication Format)">Atom</a></li>
+    </ul>
+  </footer>
+
+
+<!-- The following code is an example use of including external JavaScript libraries -->
+
+
+<!-- Theme scripts -->
+<script src="/assets/themes/curtana/js/app.js?assets-inline"></script>
+
+<!-- User custom scripts -->
+<script src="/assets/js/user.js?assets-inline"></script>
+
+<!-- Google Analytics tracking code -->
+
+  
+
+
+<!-- Foot hooks -->
+
+
+

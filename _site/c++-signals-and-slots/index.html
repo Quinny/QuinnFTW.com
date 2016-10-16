@@ -1,0 +1,488 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+
+
+  <meta charset="utf-8">
+
+
+<title>A non-scary C++ signals and slots implementation · QuinnFTW.com</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Define a description for better SEO result -->
+<meta name="description" content="I was reading hacker news not too long ago and came across a c++ signalsand slots implementation.  It wasvery clearly implemented pre-c++11, and is pretty difficult to read.  I thoughtI would try my hand at coming up with something a little more modern, takingadvantage of std::function.">
+
+<!-- Feed URL -->
+<link rel="alternate" href="/feed.xml" type="application/atom+xml">
+
+<!-- Site icons -->
+
+
+<!-- Main CSS -->
+<link rel="stylesheet" href="/assets/themes/curtana/css/app.css?assets-inline">
+
+<!-- Canonical links, avoid duplicate content problems -->
+<link rel="canonical" href="http://quinnftw.com/c++-signals-and-slots/">
+
+<!-- DNS prefetching for static files -->
+
+
+<!-- browser-sync, don't remove this -->
+<!-- BS_INSERT -->
+
+<!-- Head hooks -->
+
+
+<!-- Open Graph and Twitter Cards support, more info: https://dev.twitter.com/docs/cards -->
+
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QuinnFTW.com">
+<meta property="og:title" content="A non-scary C++ signals and slots implementation">
+<meta property="og:url" content="http://quinnftw.com/c++-signals-and-slots/">
+<meta property="og:description" content="I was reading hacker news not too long ago and came across a c++ signalsand slots implementation.  It wasvery clearly implemented pre-c++11, and is pretty difficult to read.  I thoughtI would try my hand at coming up with something a little more modern, takingadvantage of std::function.">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A non-scary C++ signals and slots implementation">
+<meta name="twitter:url" content="http://quinnftw.com/c++-signals-and-slots/">
+<meta name="twitter:description" content="I was reading hacker news not too long ago and came across a c++ signalsand slots implementation.  It wasvery clearly implemented pre-c++11, and is pretty difficult to read.  I thoughtI would try my hand at coming up with something a little more modern, takingadvantage of std::function.">
+
+
+  <meta property="article:published_time" content="2016-02-15T00:00:00-05:00">
+  <meta property="article:modified_time" content="2016-10-16T10:48:23-04:00">
+
+  <meta name="twitter:label1" value="Words">
+  <meta name="twitter:data1" value="710 words">
+  <meta name="twitter:label2" value="Reading time">
+  <meta name="twitter:data2" value="3 mins">
+
+
+
+
+
+
+
+
+<!-- Post / page specified styles -->
+
+
+<!-- Post specified styles -->
+<style data-assets-inline>
+  body {
+    
+
+    
+  }
+
+  
+
+    
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</style>
+
+<!-- Header, just a logo at the moment -->
+<header>
+  <a href="/" class=logo accesskey=x>
+    <h1>QuinnFTW.com</h1>
+  </a>
+</header>
+
+<!-- Main navigation with current page / categoriy highlighted -->
+<nav class="navigation">
+  <ul>
+    
+      
+      <li >
+        <a href="/">
+          Home
+        </a>
+      </li>
+    
+      
+      <li >
+        <a href="/about/">
+          About
+        </a>
+      </li>
+    
+      
+      <li >
+        <a href="/resume.pdf">
+          Resume
+        </a>
+      </li>
+    
+      
+      <li >
+        <a href="/blog/">
+          Blog
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+<!-- Main content wrap -->
+
+
+<main class="content  
+  
+" role=main>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Post-wide custom CSS -->
+
+  
+
+
+<!-- Prepare for image headers -->
+
+
+<!-- Prepare for SVG header -->
+
+
+
+
+
+
+
+
+
+
+<!-- Article wrapper, limit width -->
+<article 
+  
+>
+
+  <!-- Post title -->
+  <header>
+
+    <h1 class="
+  
+" title="A non-scary C++ signals and slots implementation">
+      
+  
+    
+  
+    A non-scary C++ signals and slots implementation<span class="dot dot--post"></span>
+  
+
+  
+
+    </h1>
+
+    
+      <small>
+        By <span rel="author">Quinn Perfetto</span>
+        on <time datetime="2016-02-15T00:00:00-05:00">Feb 15, 2016</time>
+      </small>
+    
+
+    
+
+  </header>
+
+  <!-- Post content -->
+  <div class="post-content">
+    <p>I was reading hacker news not too long ago and came across a <a href="https://github.com/pbhogan/Signals">c++ signals
+and slots implementation</a>.  It was
+very clearly implemented pre-c++11, and is pretty difficult to read.  I thought
+I would try my hand at coming up with something a little more modern, taking
+advantage of <code class="highlighter-rouge">std::function</code>.</p>
+
+<h2 id="signals-and-slots">Signals and slots</h2>
+
+<p>Signals and slots is a common way of implementing the observer pattern while
+avoiding messy boiler plate code and forced inheritance.  The idea is that 
+the <em>observable objects</em> can send <em>signals</em> to callable objects (<em>slots</em>).  It is
+commonly used in GUI programming for handling events such as mouse clicks, button
+presses, etc. but is also useful in other environments such as asynchronous message
+passing.</p>
+
+<h2 id="designing-the-components">Designing the components</h2>
+
+<h3 id="the-slot">The slot</h3>
+
+<p>The first thing that needed to be done was to implement the type that would be receiving
+the signals.  The number one goal here was strong typed-ness.  I <strong>really</strong> wanted
+to avoid going the java route where the observer receiving function just takes
+in an <code class="highlighter-rouge">Object</code> and leaves it up to the handler to cast it into something usable. 
+I personally find that choice to be super hacky.</p>
+
+<p>Thankfully C++ provides a <code class="highlighter-rouge">std::function</code> type which allows for template parameters
+and will type check at compile time.  The signal receiver type can then be a 
+specialization of <code class="highlighter-rouge">std::function</code> in which the return type is always void, and 
+accepts a variable number of input parameter types.  I called it <em>delegate</em>
+(inspired by the c# type) and defined it as:</p>
+
+<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="p">...</span><span class="n">Args</span><span class="o">&gt;</span>
+<span class="k">using</span> <span class="n">delegate</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="n">Args</span><span class="p">...)</span><span class="o">&gt;</span><span class="p">;</span></code></pre></figure>
+
+<p>The nice thing about <code class="highlighter-rouge">std::function</code> is that it can accept any callable
+object including lambdas and functors (callable objects).</p>
+
+<h3 id="the-signal">The signal</h3>
+
+<p>Now that the slot is done, the signal type is trivial.  We simply need
+to maintain a list of slots, and expose an interface for registering new slots
+and sending messages to them.</p>
+
+<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="p">...</span><span class="n">Args</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">signal</span> <span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="k">using</span> <span class="n">fn_t</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">&lt;</span><span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">fn_t</span><span class="o">&gt;</span> <span class="n">observers</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">connect</span><span class="p">(</span><span class="n">fn_t</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">observers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="k">operator</span> <span class="p">()(</span><span class="n">Args</span><span class="p">...</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span><span class="o">:</span> <span class="n">observers</span><span class="p">)</span>
+            <span class="n">i</span><span class="p">(</span><span class="n">a</span><span class="p">...);</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>You can now embed this signal type inside of GUI components, pass it as an 
+asynchronous callback, etc. without having to worry about any kind of boilerplate
+or inheritance.  You also avoid having to perform any cast or type checking operations
+inside the slot.
+An example usage of this code in a GUI setting follows.</p>
+
+<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include "signal.h"
+#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;functional&gt;
+</span>
+<span class="k">struct</span> <span class="n">button</span> <span class="p">{</span>
+    <span class="n">qp</span><span class="o">::</span><span class="n">signal</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">update</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">click</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">update</span><span class="p">(</span><span class="s">"clicked!"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">label</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">changeText</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="p">;</span>
+
+    <span class="n">label</span> <span class="n">label1</span><span class="p">;</span>
+    <span class="n">label</span> <span class="n">label2</span><span class="p">;</span>
+
+    <span class="n">button</span> <span class="n">button1</span><span class="p">;</span>
+    <span class="n">button1</span>
+        <span class="p">.</span><span class="n">update</span>
+        <span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">label</span><span class="o">::</span><span class="n">changeText</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">label1</span><span class="p">),</span> <span class="n">_1</span><span class="p">));</span>
+    <span class="c1">// or
+</span>    <span class="c1">// button1.update.connect([&amp;](std::string s) { label1.changeText(s); });
+</span>    <span class="n">button1</span>
+        <span class="p">.</span><span class="n">update</span>
+        <span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">label</span><span class="o">::</span><span class="n">changeText</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">label2</span><span class="p">),</span> <span class="n">_1</span><span class="p">));</span>
+
+    <span class="n">button1</span><span class="p">.</span><span class="n">click</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><a href="https://gist.github.com/Quinny/aa2ed2189a3c4209b50f">Full Code</a></p>
+
+
+    
+    
+
+    
+      <footer class="post-modified-date">
+        <p>
+          Updated
+          <time datetime=" 2016-10-16T10:48:23+08:00 ">
+            Sunday, Oct 16, 2016
+          </time>
+        </p>
+      </footer>
+    
+  </div>
+
+</article>
+
+
+
+</main>
+
+<!-- Footer section -->
+
+  <footer class="footer">
+    <ul>
+      <li><a href="/">QuinnFTW.com</a></li>
+
+      
+
+      
+
+      <li><a href="/feed.xml" title="Feed - Atom (The Atom Syndication Format)">Atom</a></li>
+    </ul>
+  </footer>
+
+
+<!-- The following code is an example use of including external JavaScript libraries -->
+
+
+<!-- Theme scripts -->
+<script src="/assets/themes/curtana/js/app.js?assets-inline"></script>
+
+<!-- User custom scripts -->
+<script src="/assets/js/user.js?assets-inline"></script>
+
+<!-- Google Analytics tracking code -->
+
+  
+
+
+<!-- Foot hooks -->
+
+
+

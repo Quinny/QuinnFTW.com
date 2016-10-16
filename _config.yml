@@ -105,3 +105,6 @@ credits:        false
 #   - "Disallow: /log/"
 # Default:      "User-agent: *"
 robots:         "User-agent: *"
+amsf_theme_base: "themes/curtana"
+
+theme: "curtana"
