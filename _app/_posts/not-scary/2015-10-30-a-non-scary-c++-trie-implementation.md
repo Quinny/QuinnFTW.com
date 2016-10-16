@@ -16,7 +16,7 @@ a common prefix.  This property makes for fast prefix based queries (used in aut
 
 Implementing a trie is similar to implementing any other n-ary tree, with a few key differences.
 
-## The Node
+# The Node
 
 Each node in a trie has a set of outgoing edges labeled by a character.  Each
 node must also contain a flag indicating whether it is a valid word end.
@@ -30,7 +30,7 @@ The end of word marker can be represented trivially by a boolean field.
 Our node ends up looking like this:
 <script src="https://gist.github.com/Quinny/960f872f88ca86b741cc.js"></script>
 
-## The Trie
+# The Trie
 
 As with most tree-like structures, the only data member required for a trie
 is a node which points to the root.
@@ -41,15 +41,8 @@ you ended on as a valid end of word.
 
 <script src="https://gist.github.com/Quinny/b2e09745aee0e60e5414.js"></script>
 
-
-Since trie_nodes are being dynamically allocated on the heap, they must be deleted.
-The destructor for a trie needs to walk the tree and de-allocate all nodes.
-This can be implemented using either a DFS or BFS traversal (I tend to prefer BFS)
-
-<script src="https://gist.github.com/Quinny/6a3079fc7d552eee76ee.js"></script>
-
-With these functions, you have a working trie.  You can now begin to add functions
-which perform the prefix queries.  I have shown an example below.
+Since tries have no cylces, we were able to use unique_ptr everywhere, and thus
+do not need to worry about explicity freeing any memory assoicated with our trie.
 
 ## Auto complete
 
