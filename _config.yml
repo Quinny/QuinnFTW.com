@@ -79,6 +79,11 @@ url:            http://quinnftw.com
 # Media assets URL used in posts, without trailing slash. ie. `<img src="{{ site.file }}/image.png">`. In the most cases this URL should be powered by a CDN provider
 file:           /assets
 
+google_analytics:
+  enabled:      True
+  id:           UA-89678614-1
+  url:          //www.google-analytics.com/analytics.js
+
 # Force UTF-8 encoding, enable this will simply add <meta charset="utf-8"> to the head of your pages
 # Default:      false
 force_utf_8:    true
