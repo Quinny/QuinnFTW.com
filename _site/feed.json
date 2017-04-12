@@ -69,6 +69,30 @@
   
     
     {
+      "title": "Paper Hockey AI",
+      "permalink": "http://quinnftw.com/paper-hockey-ai/",
+      "link": "http://quinnftw.com/paper-hockey-ai/",
+      "date": "2017-04-12T00:00:00-04:00",
+      
+        "modified": "2017-04-12T16:11:34-04:00",
+      
+      "author": {
+        "name": "Quinn Perfetto",
+        "url": "http://quinnftw.com",
+        "email": "thequinnftw@gmail.com"
+      },
+      "content": "\n\n\n\nThis year at CS Games the AI challenge entailed\ncreating an agent for a game called “paper hockey”.  Basically, each team takes\nturns moving the puck in one of eight directions (4 cardinal directions plus\ndiagonals), and the first team to score the puck in the opposing team’s net wins.\nOnce an edge has been moved over, the ice becomes crushed and it cannot be re-travelled.\nAdditionally, moving over a position that has already been visited via a different\nedge awards the player with a bounce (i.e. an extra move).  A team can also win\nby check-mating their opponent, this is accomplished by moving into a location\nsurrounded by crushed ice, thus no valid moves can be made.  The\nofficial README\ncontains more information.\n\nThe Winning Agent\n\nMy team (consisting of two others and myself) developed the winning agent.\nThe GIF above depicts a particularly involved game of our bot, the DanglingPointers,\nplaying against Brock Universities bot.  The\nsource code for our agent is available on GitHub,\nand the rest of this post will discuss our development/thought process throughout\nthe challenge.\n\nBoard Representation\n\nThe game board can easily be interpreted as an 8-regular graph, where each section\nof ice represents a node and the movements represent edges.  Since time was limited\nwe decided to forgo keeping track of the entire state of the board within our agent,\nand went with a much simpler approach.\n\nFirst Iteration\n\nIn the interest of time, we decided to start out with a simple one state look ahead\nheuristic.  Our player would move the puck to the section of ice which was closest\nto the opponents goal.  Since the game board was a grid,\nManhattan distance seemed\nlike a sensible distance function, so we went with that.\n\nA Better Distance Function\n\nWe quickly realized that Manhattan distance wasn’t a good metric as\nit only considers cardinal movements, and our agent was allowed to move diagonally.\nWe updated the heuristic to consider\nEuclidean distance, and observed \na noticeable change in performance.  [In talking to other teams I discovered\nthat we were not the only ones to make this mistake, many others incorrectly\nused Manhattan distance as a heuristic and their bot suffered because of it.]\n\nBounce Consideration\n\nAn attempt was made at considering bounces when selecting the next state.  Instead\nof only considering the immediate distance to the goal,\nthe new algorithm would consider how close we could get to the opponents goal\naccounting for how far the puck could potentially bounce.  We ultimately ended\nup scraping this as it had the unfortunate side affect of heavily saturating\nthe game board, resulting in frequent self check mates.\n\nPost Shots\n\nMoving back to the original Euclidean distance single state look ahead, we\nrealized that shooting the puck off of the walls provided a bounce.  Since the\nposts counted as walls, one could guarantee victory from two sections away by\nbanking the shot off the post and then into the goal.  We thus modified our\nheuristic to always take a post shot if one was available.\n\nOccam’s Razor\n\nIn the end Occam’s Razor\nprevailed and a greedy one state look ahead agent out-performed its more\ncomplicated counter parts.\n\n\n\n\n  \n    \n      \n        \n          [Left to right] Patrick (team mate), Myself, Jurko (team mate),\nMark (contest organizer)\n        \n      \n    \n  \n\n",
+      "excerpt": "\n\n\n\n",
+      "languages": null,
+      "categories": ["misc"],
+      "tags": []
+    }
+    
+  
+
+  
+    ,
+    {
       "title": "A non-scary C++ Bloom Filter Implementation",
       "permalink": "http://quinnftw.com/c++-bloom-filter/",
       "link": "http://quinnftw.com/c++-bloom-filter/",
@@ -86,30 +110,6 @@
       "languages": null,
       "categories": ["not-scary"],
       "tags": []
-    }
-    
-  
-
-  
-    ,
-    {
-      "title": "IPD Research Paper",
-      "permalink": "http://quinnftw.com/ipd-research-paper/",
-      "link": "http://quinnftw.com/ipd-research-paper/",
-      "date": "2016-03-23T00:00:00-04:00",
-      
-        "modified": "2016-03-23T09:31:03-04:00",
-      
-      "author": {
-        "name": "Quinn Perfetto",
-        "url": "http://quinnftw.com",
-        "email": "thequinnftw@gmail.com"
-      },
-      "content": "\n",
-      "excerpt": "\n",
-      "languages": null,
-      "categories": [],
-      "tags": ["project"]
     }
     
   

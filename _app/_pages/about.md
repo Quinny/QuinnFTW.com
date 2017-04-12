@@ -14,7 +14,7 @@ at least get my feet wet in a little bit of everything).
 
 A few things that I have been interested in lately:
 
-* Applying deep learning methods to decision trees
+* Applying deep learning methods to [decision trees](https://github.com/Quinny/DecisionForest)
 * Learning functional programming abstractions with
 [λHaskell](https://www.haskell.org)
 * Implementing classic data structures in [modern c++](/blog/)

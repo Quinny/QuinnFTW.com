@@ -5,8 +5,8 @@ permalink: /blog/
 desc: A few inner ramblings
 ---
 
-<h2>Latest Post</h2>
-{% for post in site.posts limit:1 %}
+<h2>Latest Posts</h2>
+{% for post in site.posts limit:3 %}
   {% include themes/{{ site.theme }}/includes/page-item.html %}
 {% endfor %}
 

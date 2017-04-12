@@ -67,7 +67,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>QuinnFTW.com</title>
   <subtitle>QuinnFTW.com - Quinn Perfetto</subtitle>
-  <updated>2017-01-01T13:11:41-05:00</updated>
+  <updated>2017-04-12T16:11:35-04:00</updated>
   <id>http://quinnftw.com/</id>
   <rights>Copyright © 2017, Quinn Perfetto</rights>
 
@@ -80,6 +80,129 @@
     <email>thequinnftw@gmail.com</email>
   </author>
 
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Paper Hockey AI</title>
+        <id>http://quinnftw.com/paper-hockey-ai/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/paper-hockey-ai/" />
+        <published>2017-04-12T00:00:00-04:00</published>
+
+        
+          <updated>2017-04-12T16:11:34-04:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;div align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/paperhockey.gif&quot; width=&quot;10%&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This year at &lt;a href=&quot;http://2017.csgames.org/&quot;&gt;CS Games&lt;/a&gt; the AI challenge entailed
+creating an agent for a game called “paper hockey”.  Basically, each team takes
+turns moving the puck in one of eight directions (4 cardinal directions plus
+diagonals), and the first team to score the puck in the opposing team’s net wins.
+Once an edge has been moved over, the ice becomes crushed and it cannot be re-travelled.
+Additionally, moving over a position that has already been visited via a different
+edge awards the player with a bounce (i.e. an extra move).  A team can also win
+by check-mating their opponent, this is accomplished by moving into a location
+surrounded by crushed ice, thus no valid moves can be made.  The
+&lt;a href=&quot;https://github.com/Marx314/csgames_2017_ai/blob/bc9c20150b7fcb989f0117f7ccae7b017badc3bf/readme/readme-en.md&quot;&gt;official README&lt;/a&gt;
+contains more information.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-winning-agent&quot;&gt;The Winning Agent&lt;/h1&gt;
+
+&lt;p&gt;My team (consisting of two others and myself) developed the winning agent.
+The GIF above depicts a particularly involved game of our bot, the DanglingPointers,
+playing against Brock Universities bot.  The
+&lt;a href=&quot;https://github.com/Quinny/CSGames2017AIWinner&quot;&gt;source code for our agent is available on GitHub&lt;/a&gt;,
+and the rest of this post will discuss our development/thought process throughout
+the challenge.&lt;/p&gt;
+
+&lt;h1 id=&quot;board-representation&quot;&gt;Board Representation&lt;/h1&gt;
+
+&lt;p&gt;The game board can easily be interpreted as an 8-regular graph, where each section
+of ice represents a node and the movements represent edges.  Since time was limited
+we decided to forgo keeping track of the entire state of the board within our agent,
+and went with a much simpler approach.&lt;/p&gt;
+
+&lt;h1 id=&quot;first-iteration&quot;&gt;First Iteration&lt;/h1&gt;
+
+&lt;p&gt;In the interest of time, we decided to start out with a simple one state look ahead
+heuristic.  Our player would move the puck to the section of ice which was closest
+to the opponents goal.  Since the game board was a grid,
+&lt;a href=&quot;https://en.wiktionary.org/wiki/Manhattan_distance&quot;&gt;Manhattan distance&lt;/a&gt; seemed
+like a sensible distance function, so we went with that.&lt;/p&gt;
+
+&lt;h1 id=&quot;a-better-distance-function&quot;&gt;A Better Distance Function&lt;/h1&gt;
+
+&lt;p&gt;We quickly realized that Manhattan distance wasn’t a good metric as
+it only considers cardinal movements, and our agent was allowed to move diagonally.
+We updated the heuristic to consider
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Euclidean_distance&quot;&gt;Euclidean distance&lt;/a&gt;, and observed 
+a noticeable change in performance.  [In talking to other teams I discovered
+that we were not the only ones to make this mistake, many others incorrectly
+used Manhattan distance as a heuristic and their bot suffered because of it.]&lt;/p&gt;
+
+&lt;h1 id=&quot;bounce-consideration&quot;&gt;Bounce Consideration&lt;/h1&gt;
+
+&lt;p&gt;An attempt was made at considering bounces when selecting the next state.  Instead
+of only considering the immediate distance to the goal,
+the new algorithm would consider how close we could get to the opponents goal
+accounting for how far the puck could potentially bounce.  We ultimately ended
+up scraping this as it had the unfortunate side affect of heavily saturating
+the game board, resulting in frequent self check mates.&lt;/p&gt;
+
+&lt;h1 id=&quot;post-shots&quot;&gt;Post Shots&lt;/h1&gt;
+
+&lt;p&gt;Moving back to the original Euclidean distance single state look ahead, we
+realized that shooting the puck off of the walls provided a bounce.  Since the
+posts counted as walls, one could guarantee victory from two sections away by
+banking the shot off the post and then into the goal.  We thus modified our
+heuristic to always take a post shot if one was available.&lt;/p&gt;
+
+&lt;h1 id=&quot;occams-razor&quot;&gt;Occam’s Razor&lt;/h1&gt;
+
+&lt;p&gt;In the end &lt;a href=&quot;https://en.wikipedia.org/wiki/Occam%27s_razor&quot;&gt;Occam’s Razor&lt;/a&gt;
+prevailed and a greedy one state look ahead agent out-performed its more
+complicated counter parts.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/aiteam.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;blockquote&gt;
+      &lt;blockquote&gt;
+        &lt;blockquote&gt;
+          &lt;p&gt;[Left to right] Patrick (team mate), Myself, Jurko (team mate),
+Mark (contest organizer)&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/blockquote&gt;
+    &lt;/blockquote&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+          
+          
+        
+      
+        </content>
+
+        
+          <summary></summary>
+        
+      </entry>
+    
   
     
       
@@ -208,45 +331,6 @@ generator with the output.  This generator can then be used to compute each of t
 
         
           <summary>A bloom filter is a space efficient data structure which answers the question of“Do you contain this element?” with either “Maybe” or “Definitely not”.  Bloomfilters trade-off the total confidence of a typical hash set with a huge reductionin memory.</summary>
-        
-      </entry>
-    
-  
-    
-      
-
-      
-
-      <entry>
-        <title>IPD Research Paper</title>
-        <id>http://quinnftw.com/ipd-research-paper/</id>
-        <link rel="alternate" type="text/html" href="http://quinnftw.com/ipd-research-paper/" />
-        <published>2016-03-23T00:00:00-04:00</published>
-
-        
-          <updated>2016-03-23T09:31:03-04:00</updated>
-        
-
-        <author>
-          <name>Quinn Perfetto</name>
-          <uri>http://quinnftw.com</uri>
-          <email>thequinnftw@gmail.com</email>
-        </author>
-
-        <content type="html" xml:base="http://quinnftw.com/">
-          
-            
-
-          
-          
-        
-          &lt;p&gt;&lt;a href=&quot;/ipd.pdf&quot;&gt;&lt;small&gt;◉ Direct Link to Original Site&lt;/small&gt;&lt;/a&gt;&lt;/p&gt;
-        
-      
-        </content>
-
-        
-          <summary></summary>
         
       </entry>
     
