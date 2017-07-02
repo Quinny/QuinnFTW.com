@@ -5,8 +5,7 @@ permalink: /about/
 desc: The man behind the curtain
 ---
 
-I am currently a fourth year student in the Honours Computer Science program at
-the University of Windsor.  I find myself interested in the mathematical concepts
+I currently work as a Software Engineer for Google under the Product Infrastructure organisation.  I find myself interested in the mathematical concepts
 associated with computer science and enjoy writing library/back-end code (although I try to
 at least get my feet wet in a little bit of everything).
 
