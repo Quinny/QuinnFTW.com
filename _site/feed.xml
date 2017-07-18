@@ -67,7 +67,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>QuinnFTW.com</title>
   <subtitle>QuinnFTW.com - Quinn Perfetto</subtitle>
-  <updated>2017-07-16T12:01:34-04:00</updated>
+  <updated>2017-07-17T20:47:49-04:00</updated>
   <id>http://quinnftw.com/</id>
   <rights>Copyright © 2017, Quinn Perfetto</rights>
 
@@ -296,7 +296,7 @@ average length of 10 characters.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;td&gt;1,000,000 10 byte strings for collision checking&lt;/td&gt;
 &lt;td&gt;80,000,000 bits&lt;/td&gt;
-
+&amp;lt;/tr&amp;gt;
 &lt;tr&gt;
 &lt;td&gt;Total size&lt;/td&gt;
 &lt;td&gt;18.75MB&lt;/td&gt;
@@ -641,7 +641,7 @@ output a suggested ordering such that all of a given events pre-requisites appea
   &lt;li&gt;An edge going from event A to event B denotes that A is a pre-requisite of B&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;assetsimagespotwtopoclassespng&quot;&gt;&lt;img src=&quot;/assets/images/potw/topoclasses.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+&lt;h2&gt;&lt;img src=&quot;/assets/images/potw/topoclasses.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
 
 &lt;h2 id=&quot;building-the-graph&quot;&gt;Building the graph&lt;/h2&gt;
 
@@ -825,7 +825,7 @@ is passed to an asynchronous call as a means of returning the data&lt;/li&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;assetsimagespotwasynciopng&quot;&gt;&lt;img src=&quot;/assets/images/potw/asyncio.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+&lt;h2&gt;&lt;img src=&quot;/assets/images/potw/asyncio.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
 
 &lt;h2 id=&quot;the-code&quot;&gt;The code&lt;/h2&gt;
 
@@ -1177,7 +1177,7 @@ descendants of a given node share a common prefix&lt;/li&gt;
   &lt;li&gt;Used commonly for auto-complete and text prediction&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 class=&quot;h&quot; id=&quot;assetsimagestriejpg&quot;&gt;&lt;img src=&quot;/assets/images/trie.jpg&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+&lt;h2 class=&quot;h&quot;&gt;&lt;img src=&quot;/assets/images/trie.jpg&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
 
 &lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
 
@@ -1300,7 +1300,7 @@ the coolest guy around Quinn&lt;/p&gt;
   &lt;li&gt;Undirected just means that each edge is bidirectional (just like the friendship relation)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 class=&quot;cover h&quot; id=&quot;assetsimagespotwgraphpng&quot;&gt;&lt;img src=&quot;/assets/images/potw/graph.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
+&lt;h2 class=&quot;cover h&quot;&gt;&lt;img src=&quot;/assets/images/potw/graph.png&quot; alt=&quot;&quot; /&gt;&lt;/h2&gt;
 
 &lt;h2 id=&quot;step-2-choosing-an-algorithm&quot;&gt;Step 2: Choosing an Algorithm&lt;/h2&gt;
 
