@@ -67,9 +67,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>QuinnFTW.com</title>
   <subtitle>QuinnFTW.com - Quinn Perfetto</subtitle>
-  <updated>2017-07-17T20:47:49-04:00</updated>
+  <updated>2018-04-08T18:48:25-04:00</updated>
   <id>http://quinnftw.com/</id>
-  <rights>Copyright © 2017, Quinn Perfetto</rights>
+  <rights>Copyright © 2018, Quinn Perfetto</rights>
 
   <link rel="alternate" type="text/html" hreflang="en" href="http://quinnftw.com/" />
   <link rel="self" type="application/atom+xml" href="http://quinnftw.com/feed.xml" />
@@ -80,6 +80,147 @@
     <email>thequinnftw@gmail.com</email>
   </author>
 
+  
+    
+      
+
+      
+
+      <entry>
+        <title>Using Sharding to Reduce Mutex Contention on Associative Data Structures</title>
+        <id>http://quinnftw.com/reduce-mutex-contention-on-associative-data-structures/</id>
+        <link rel="alternate" type="text/html" href="http://quinnftw.com/reduce-mutex-contention-on-associative-data-structures/" />
+        <published>2018-04-08T00:00:00-04:00</published>
+
+        
+          <updated>2018-04-08T18:48:23-04:00</updated>
+        
+
+        <author>
+          <name>Quinn Perfetto</name>
+          <uri>http://quinnftw.com</uri>
+          <email>thequinnftw@gmail.com</email>
+        </author>
+
+        <content type="html" xml:base="http://quinnftw.com/">
+          
+            &lt;p&gt;Associative data structures are extremely prevalent in all types of software.
+They are the underlying storage behind hash maps, sets, and most kinds of caches.
+These data structures are also notoriously hard to synchronize such that multiple
+threads can read and write to them in an efficient manner without inducing race
+conditions.&lt;/p&gt;
+
+&lt;h1 id=&quot;single-mutex&quot;&gt;Single Mutex&lt;/h1&gt;
+
+&lt;p&gt;One common solution is to use a single mutex which guards the entire data structure.&lt;/p&gt;
+
+&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ThreadSafeHashMap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Mutex&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Not thread safe.
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;HashMap&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;mu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;mu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The issue with this is that when multiple threads try to perform operations at
+the same time, the mutex essentially serializes them. This creates
+high mutex contention and throws away all performance gains provided from using
+multiple threads.&lt;/p&gt;
+
+&lt;h1 id=&quot;granular-locking&quot;&gt;Granular Locking&lt;/h1&gt;
+
+&lt;p&gt;On the other end of the spectrum, one could implement their own hash map which
+natively supports multi threaded operations via granular locking. That is,
+leveraging knowledge of the underlying implementation such that you can use
+multiple mutexes which each cover the smallest unit possible. For example when
+implementing a thread safe hash map one might use a single mutex per hash node
+and carefully coordinate the locking.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/granular-lock.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;While this provides the highest level of performance, this type of code is
+difficult to write and even more difficult to verify its correctness.
+Additionally the work done on one data structure (e.g.  a hash map) may not
+(and very likely will not) translate to another (e.g.  a binary tree).&lt;/p&gt;
+
+&lt;h1 id=&quot;sharding&quot;&gt;Sharding&lt;/h1&gt;
+
+&lt;p&gt;The sweet spot between these two techniques is known as &lt;strong&gt;sharding&lt;/strong&gt;. The idea
+is to to split the data structure into shards and assign each key to a shard
+using a uniformly distributed hash function. Each shard is mutex protected, and
+therefore operations only need to lock one shard of the data structure, not the entire
+thing.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/sharded-map.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This approach will still reduce lock contention significantly compared to the
+single mutex approach, and is trivial to implement.&lt;/p&gt;
+
+&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ShardedMap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MapShard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Mutex&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;HashMap&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MapShard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Note that n_shards should generally be the number of threads accessing the
+&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// map. Anything greater than that will not provide any benefit.
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ShardedMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n_shards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n_shards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;map_shard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shard_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;map_shard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;map_shard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;map_shard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;No custom logic is required, the sharded map is just a thin wrapper class around the underlying
+data structure. This same logic can be applied to most associative data structures
+and just work out of the box.&lt;/p&gt;
+
+&lt;h2 id=&quot;caveats&quot;&gt;Caveats&lt;/h2&gt;
+
+&lt;h3 id=&quot;extra-memory&quot;&gt;Extra Memory&lt;/h3&gt;
+
+&lt;p&gt;Sharded data structures will use slightly more memory than their non-sharded
+counterparts. This overhead comes from the constant memory allocated for each
+shard (e.g. size, data pointers, etc) and the memory overhead of the vector.
+This extra memory overhead is likely to be negligible, but worth mentioning.&lt;/p&gt;
+
+&lt;h3 id=&quot;hot-keys&quot;&gt;Hot Keys&lt;/h3&gt;
+
+&lt;p&gt;Sharded data structures are somewhat vulnerable to hot keys. I.e. a single key
+which is frequently operated on. In this case there will be high contention on
+the shard for which this key belongs to. This can be mitigated by introducing
+a non-determinstic sharding function which places hot keys in more than 1 shard.
+This solution does complicate things though, and introduces a probabilistic
+component to the data structure (e.g. look ups may result in the key not being
+found, when in fact it is actually in another shard. This trade off is generally
+acceptable in cache scenarios, where failed look ups just result in the key being
+re-populated).&lt;/p&gt;
+
+          
+          
+        
+      
+        </content>
+
+        
+          <summary>Associative data structures are extremely prevalent in all types of software.They are the underlying storage behind hash maps, sets, and most kinds of caches.These data structures are also notoriously hard to synchronize such that multiplethreads can read and write to them in an efficient manner without inducing raceconditions.</summary>
+        
+      </entry>
+    
   
     
       

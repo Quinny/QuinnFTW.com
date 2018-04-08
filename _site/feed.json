@@ -69,6 +69,30 @@
   
     
     {
+      "title": "Using Sharding to Reduce Mutex Contention on Associative Data Structures",
+      "permalink": "http://quinnftw.com/reduce-mutex-contention-on-associative-data-structures/",
+      "link": "http://quinnftw.com/reduce-mutex-contention-on-associative-data-structures/",
+      "date": "2018-04-08T00:00:00-04:00",
+      
+        "modified": "2018-04-08T18:48:23-04:00",
+      
+      "author": {
+        "name": "Quinn Perfetto",
+        "url": "http://quinnftw.com",
+        "email": "thequinnftw@gmail.com"
+      },
+      "content": "Associative data structures are extremely prevalent in all types of software.\nThey are the underlying storage behind hash maps, sets, and most kinds of caches.\nThese data structures are also notoriously hard to synchronize such that multiple\nthreads can read and write to them in an efficient manner without inducing race\nconditions.\n\nSingle Mutex\n\nOne common solution is to use a single mutex which guards the entire data structure.\n\nclass ThreadSafeHashMap {\n  Mutex mu;\n  // Not thread safe.\n  HashMap map;\n\n  void put(key, value) {\n    mu.lock();\n    map.put(key, value);\n    mu.unlock();\n  }\n\n  ...\n}\n\n\n\nThe issue with this is that when multiple threads try to perform operations at\nthe same time, the mutex essentially serializes them. This creates\nhigh mutex contention and throws away all performance gains provided from using\nmultiple threads.\n\nGranular Locking\n\nOn the other end of the spectrum, one could implement their own hash map which\nnatively supports multi threaded operations via granular locking. That is,\nleveraging knowledge of the underlying implementation such that you can use\nmultiple mutexes which each cover the smallest unit possible. For example when\nimplementing a thread safe hash map one might use a single mutex per hash node\nand carefully coordinate the locking.\n\n\n\nWhile this provides the highest level of performance, this type of code is\ndifficult to write and even more difficult to verify its correctness.\nAdditionally the work done on one data structure (e.g.  a hash map) may not\n(and very likely will not) translate to another (e.g.  a binary tree).\n\nSharding\n\nThe sweet spot between these two techniques is known as sharding. The idea\nis to to split the data structure into shards and assign each key to a shard\nusing a uniformly distributed hash function. Each shard is mutex protected, and\ntherefore operations only need to lock one shard of the data structure, not the entire\nthing.\n\n\n\nThis approach will still reduce lock contention significantly compared to the\nsingle mutex approach, and is trivial to implement.\n\nclass ShardedMap {\n  class MapShard {\n    Mutex mu;\n    HashMap map;\n  }\n  vector&lt;MapShard&gt; shards;\n\n  // Note that n_shards should generally be the number of threads accessing the\n  // map. Anything greater than that will not provide any benefit.\n  ShardedMap(n_shards): shards(n_shards) {}\n\n  void put(key, value) {\n    map_shard = shards[shard_function(key)]\n    map_shard.mu.lock()\n    map_shard.put(key, value)\n    map_shard.mu.unlock()\n  }\n}\n\n\n\nNo custom logic is required, the sharded map is just a thin wrapper class around the underlying\ndata structure. This same logic can be applied to most associative data structures\nand just work out of the box.\n\nCaveats\n\nExtra Memory\n\nSharded data structures will use slightly more memory than their non-sharded\ncounterparts. This overhead comes from the constant memory allocated for each\nshard (e.g. size, data pointers, etc) and the memory overhead of the vector.\nThis extra memory overhead is likely to be negligible, but worth mentioning.\n\nHot Keys\n\nSharded data structures are somewhat vulnerable to hot keys. I.e. a single key\nwhich is frequently operated on. In this case there will be high contention on\nthe shard for which this key belongs to. This can be mitigated by introducing\na non-determinstic sharding function which places hot keys in more than 1 shard.\nThis solution does complicate things though, and introduces a probabilistic\ncomponent to the data structure (e.g. look ups may result in the key not being\nfound, when in fact it is actually in another shard. This trade off is generally\nacceptable in cache scenarios, where failed look ups just result in the key being\nre-populated).\n",
+      "excerpt": "Associative data structures are extremely prevalent in all types of software.\nThey are the underlying storage behind hash maps, sets, and most kinds of caches.\nThese data structures are also notoriously hard to synchronize such that multiple\nthreads can read and write to them in an efficient manner without inducing race\nconditions.\n\n",
+      "languages": null,
+      "categories": ["misc"],
+      "tags": []
+    }
+    
+  
+
+  
+    ,
+    {
       "title": "Paper Hockey AI",
       "permalink": "http://quinnftw.com/paper-hockey-ai/",
       "link": "http://quinnftw.com/paper-hockey-ai/",

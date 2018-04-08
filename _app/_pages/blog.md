@@ -10,6 +10,11 @@ desc: A few inner ramblings
   {% include themes/{{ site.theme }}/includes/page-item.html %}
 {% endfor %}
 
+<h2>TL;DR</h2>
+{% for post in site.categories.tldr %}
+  {% include themes/{{ site.theme }}/includes/page-item.html %}
+{% endfor %}
+
 <h2>Non-scary C++</h2>
 {% for post in site.categories.not-scary %}
   {% include themes/{{ site.theme }}/includes/page-item.html %}

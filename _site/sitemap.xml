@@ -67,7 +67,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://quinnftw.com/</loc>
-    <lastmod>2017-07-17</lastmod>
+    <lastmod>2018-04-08</lastmod>
   </url>
 
   
@@ -99,6 +99,15 @@
     
   
 
+  
+    
+      <url>
+        <loc>http://quinnftw.com/reduce-mutex-contention-on-associative-data-structures/</loc>
+        
+          <lastmod>2018-04-08</lastmod>
+        
+      </url>
+    
   
     
       <url>
