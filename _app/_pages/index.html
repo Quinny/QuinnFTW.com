@@ -5,10 +5,8 @@ permalink: /
 ---
 <!-- Article wrapper, limit width -->
 <article>
-
   <!-- Post title -->
   <header>
-
     <h1>
       Quinn Perfetto
     </h1>
@@ -20,10 +18,23 @@ permalink: /
     </small>
   </header>
 
-  <div class="page-content">
-      <h2>Personal Projects <small>&#x30FB; the fun stuff</small></h2>
-    {% for post in site.tags.project %}
-        {% include themes/{{ site.theme }}/includes/page-item.html %}
-    {% endfor %}
-  </div>
+  <h2>Latest Posts</h2>
+  {% for post in site.posts limit:3 %}
+    {% include themes/{{ site.theme }}/includes/page-item.html %}
+  {% endfor %}
+
+  <h2>Non-scary C++</h2>
+  {% for post in site.categories.not-scary %}
+    {% include themes/{{ site.theme }}/includes/page-item.html %}
+  {% endfor %}
+
+  <h2>Problem of the week</h2>
+  {% for post in site.categories.potw %}
+    {% include themes/{{ site.theme }}/includes/page-item.html %}
+  {% endfor %}
+
+  <h2>Misc.</h2>
+  {% for post in site.categories.misc %}
+    {% include themes/{{ site.theme }}/includes/page-item.html %}
+  {% endfor %}
 </article>
