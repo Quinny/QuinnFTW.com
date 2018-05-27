@@ -69,12 +69,36 @@
   
     
     {
+      "title": "Tuning Racecars with Black Box Optimization",
+      "permalink": "http://quinnftw.com/tuning-racecars-with-black-box-optimization/",
+      "link": "http://quinnftw.com/tuning-racecars-with-black-box-optimization/",
+      "date": "2018-05-26T00:00:00-04:00",
+      
+        "modified": "2018-05-27T12:16:12-04:00",
+      
+      "author": {
+        "name": "Quinn Perfetto",
+        "url": "http://quinnftw.com",
+        "email": "thequinnftw@gmail.com"
+      },
+      "content": "Note that I have no affiliation with the game mentioned in this post\n\nI take somewhat of a guilty pleasure in playing car racing games on my phone.\nEvery now and then when I get bored I find the hottest racing game on the Play\nStore and sink some time into it.  As a car guy who doesn’t currently own a car,\nI think this provides some sort of outlet for me to live vicariously through my\navatar.\n\n\n  \n    \n      \n    \n  \n  \n    \n      My most recent car at the time of writing this post\n    \n  \n\n\nThe latest game I’ve been into, appropriately titled “Drag Racing: Streets”,\nhas a relatively complex racing engine. There are a number of tunable car parameters\nwhich affect your car’s speed in different ways. These parameters fall into two categories: suspension and transmission.\n\n\n  \n    \n      \n      \n    \n  \n  \n    \n      Suspension parameters\n      Transmission parameters\n    \n  \n\n\nTuning these parameters to optimize your car’s speed is a pretty tedious job.\nAfter spending a non-trivial amount of time searching for the best settings, I\nput on my software engineering hat and decided to work smart and not hard. I\nrealized that since these parameters are bounded, and there exists a well defined\nobjective function (the time it takes for the car to travel some distance) it\nshould be possible to use an algorithm to efficiently traverse the search\nspace.\n\nBlack box optimization\n\nBlack box optimization is a problem solving technique which attempts to minimize\n(or maximize) the output of some function f with respect to a set of bounded\ninput parameters. The name comes from the fact that the algorithm makes no\nassumptions about the underlying function, it is treated as an opaque entity\nwhich takes input and provides output. Generally black box optimizers are\ndesigned to minimize the number of times the objective function is queried,\nas it is assumed to be expensive.\n\nOptimizing my car’s suspension and transmission seemed like a task which fit well with this\nparadigm, so I wrote up a short script which utilized the blackbox python library, and was off to the races (pun intended).\n\n\n\nResults\n\nSuspension Tuning\n\nThe suspension tuning worked surprisingly well. The optimizer actually converged\non values very close to what I had worked out originally. At the advice of the\noptimizer I reduced my front tire pressure slightly and inched up my back springs\nand found that my car ran 0.2 seconds faster in the quarter mile, which is a\nnoticeable improvement.\n\nTransmission Tuning\n\nUnfortunately the optimizer failed to provide a sensible transmission tune.\nUnlike the suspension parameters, the transmission parameters have some\nconstraints within themselves. That is, the gear ratios should be strictly\ndecreasing from 1st to 4th gear. Since the optimizer I used did not support\nconstraints, the model failed to converge to this pattern within a reasonable\namount of time.\n\nFuture Work\n\nConstrained Optimization\n\nThe optimizer I used did not support constrained optimization. I.e. Find the\nbest gear ratios r1, r2, r3, r4 such that r1 &gt; r2 &gt; r3 &gt; r4. These constraints\nwould significantly reduce the search space and help the optimizer converge\nfaster, allowing it to throw away invalid configurations. The scipy package\nincludes constrained optimization libraries which may be of help here.\n\nMore Parameters Per Run\n\nIn the interest of time and my own sanity I only tuned two parameters at a time.\nThis means that the optimizer wasn’t able to fully measure the effect different\nparameters have on each other (e.g. how changing the gear ratios may effect the\nsuspension). Introducing some constraints as discussed above may reduce the search\nenough to make doing this viable.\n",
+      "excerpt": "Note that I have no affiliation with the game mentioned in this post\n\n",
+      "languages": null,
+      "categories": ["misc"],
+      "tags": []
+    }
+    
+  
+
+  
+    ,
+    {
       "title": "Using Sharding to Reduce Mutex Contention on Associative Data Structures",
       "permalink": "http://quinnftw.com/reduce-mutex-contention-on-associative-data-structures/",
       "link": "http://quinnftw.com/reduce-mutex-contention-on-associative-data-structures/",
       "date": "2018-04-08T00:00:00-04:00",
       
-        "modified": "2018-04-08T18:48:23-04:00",
+        "modified": "2018-04-08T19:13:04-04:00",
       
       "author": {
         "name": "Quinn Perfetto",

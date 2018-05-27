@@ -67,7 +67,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://quinnftw.com/</loc>
-    <lastmod>2018-04-08</lastmod>
+    <lastmod>2018-05-27</lastmod>
   </url>
 
   
@@ -75,16 +75,7 @@
       <url>
         <loc>http://quinnftw.com/about/</loc>
         
-          <lastmod>2017-07-02</lastmod>
-        
-      </url>
-    
-  
-    
-      <url>
-        <loc>http://quinnftw.com/blog/</loc>
-        
-          <lastmod>2017-04-12</lastmod>
+          <lastmod>2018-04-08</lastmod>
         
       </url>
     
@@ -93,12 +84,21 @@
       <url>
         <loc>http://quinnftw.com/</loc>
         
-          <lastmod>2017-07-02</lastmod>
+          <lastmod>2018-04-08</lastmod>
         
       </url>
     
   
 
+  
+    
+      <url>
+        <loc>http://quinnftw.com/tuning-racecars-with-black-box-optimization/</loc>
+        
+          <lastmod>2018-05-27</lastmod>
+        
+      </url>
+    
   
     
       <url>
